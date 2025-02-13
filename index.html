@@ -3,28 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meine Fotografie-Website</title>
+    <title>Fotografie Welt</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
-        header { background-color: #333; color: white; padding: 20px; font-size: 24px; }
-        section { padding: 20px; }
-        .contact { margin-top: 20px; }
-        a { color: #007BFF; text-decoration: none; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px 0;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .hero {
+            background: url('blog1.jpg') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <header>Willkommen auf meiner Fotografie-Website</header>
-    <section>
-        <h2>Über mich</h2>
-        <p>Ich bin ein leidenschaftlicher Fotograf und teile hier meine besten Arbeiten.</p>
-    </section>
-    <section>
-        <h2>Meine Fotos</h2>
-        <p>Hier werde ich meine besten Fotos präsentieren.</p>
-    </section>
-    <section class="contact">
+
+    <header>
+        <h1>Fotografie Welt</h1>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">Über uns</a>
+        <a href="#gallery">Galerie</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact">Kontakt</a>
+    </nav>
+
+    <div class="hero">
+        <h1>Willkommen in der Welt der Fotografie</h1>
+    </div>
+
+    <div class="content" id="about">
+        <h2>Über uns</h2>
+        <p>
+            Fotografie ist mehr als nur ein Hobby – es ist eine Leidenschaft, die es uns ermöglicht, die Welt durch die Linse zu sehen. 
+            Auf unserer Seite teilen wir Tipps, Tricks und inspirierende Geschichten rund um die Fotografie. 
+            Egal, ob du Anfänger oder Profi bist, hier findest du alles, was du brauchst, um deine Fähigkeiten zu verbessern.
+        </p>
+    </div>
+
+    <div class="content" id="gallery">
+        <h2>Galerie</h2>
+        <p>
+            Schau dir unsere neuesten Werke an und lass dich inspirieren. Klicke auf das Bild unten, um mehr zu erfahren.
+        </p>
+        <a href="blog1.jpg" target="_blank">
+            <img src="blog1.jpg" alt="Fotografie Blog Bild" style="max-width: 100%; height: auto; border-radius: 10px;">
+        </a>
+    </div>
+
+    <div class="content" id="blog">
+        <h2>Blog</h2>
+        <p>
+            In unserem Blog teilen wir regelmäßig neue Artikel, Tutorials und Erfahrungsberichte. 
+            Verpasse keine Updates und bleibe auf dem Laufenden!
+        </p>
+    </div>
+
+    <div class="content" id="contact">
         <h2>Kontakt</h2>
-        <p>Schreib mir eine E-Mail: <a href="mailto:deinemail@example.com">deinemail@example.com</a></p>
-    </section>
+        <p>
+            Hast du Fragen oder möchtest du mit uns zusammenarbeiten? Kontaktiere uns gerne über das untenstehende Formular.
+        </p>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Fotografie Welt. Alle Rechte vorbehalten.</p>
+    </footer>
+
 </body>
 </html>
