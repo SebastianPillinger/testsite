@@ -28,6 +28,34 @@ navLinks.forEach(link => {
     });
 });
 
+// Funktionen für Touch-Events
+function handleTouchStart(event) {
+    const imageContainer = event.currentTarget;
+    const image = imageContainer.querySelector('img');
+    const overlayText = imageContainer.querySelector('.overlay-text');
+
+    image.style.transform = 'scale(1.1)';
+    image.style.filter = 'brightness(0.7)';
+    overlayText.style.opacity = '1';
+}
+
+function handleTouchEnd(event) {
+    const imageContainer = event.currentTarget;
+    const image = imageContainer.querySelector('img');
+    const overlayText = imageContainer.querySelector('.overlay-text');
+
+    image.style.transform = 'scale(1)';
+    image.style.filter = 'brightness(1)';
+    overlayText.style.opacity = '0';
+}
+
+// Touch-Events zu allen Bildcontainern hinzufügen
+const imageContainers = document.querySelectorAll('.image-container');
+imageContainers.forEach(container => {
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchend', handleTouchEnd);
+});
+
 // Lightbox-Funktionen
 let currentIndex = 0;
 let images = [];
@@ -35,12 +63,6 @@ let touchStartX = 0; // Startposition des Wischens (horizontal)
 let touchStartY = 0; // Startposition des Wischens (vertikal)
 let touchEndX = 0; // Endposition des Wischens (horizontal)
 let touchEndY = 0; // Endposition des Wischens (vertikal)
-let isSwiping = false; // Status, ob gerade gewischt wird
-let startX = 0; // Startposition für Momentum
-let currentX = 0; // Aktuelle Position für Momentum
-let distanceX = 0; // Distanz des Wischens
-const swipeThreshold = 50; // Mindestabstand für einen Swipe
-const momentumThreshold = 100; // Schwung, um das Bild zu wechseln
 
 // Lightbox öffnen
 function openLightbox(imageSrc, imageList) {
@@ -58,7 +80,6 @@ function openLightbox(imageSrc, imageList) {
 
     // Touch-Events für Wischen hinzufügen
     lightbox.addEventListener('touchstart', handleTouchStart, { passive: false });
-    lightbox.addEventListener('touchmove', handleTouchMove, { passive: false });
     lightbox.addEventListener('touchend', handleTouchEnd, { passive: false });
 }
 
@@ -72,7 +93,6 @@ function closeLightbox() {
 
     // Touch-Events entfernen
     lightbox.removeEventListener('touchstart', handleTouchStart);
-    lightbox.removeEventListener('touchmove', handleTouchMove);
     lightbox.removeEventListener('touchend', handleTouchEnd);
 }
 
@@ -86,48 +106,27 @@ function changeImage(n) {
 
     const lightboxImg = document.getElementById('lightbox-img');
     lightboxImg.src = images[currentIndex];
-    lightboxImg.style.transform = 'translateX(0)'; // Bild zurück zur Mitte setzen
 }
 
 // Touch-Event-Handler
 function handleTouchStart(event) {
-    isSwiping = true;
-    startX = event.touches[0].clientX; // Startposition des Wischens (horizontal)
-    currentX = startX;
+    touchStartX = event.touches[0].clientX; // Startposition des Wischens (horizontal)
     touchStartY = event.touches[0].clientY; // Startposition des Wischens (vertikal)
 }
 
-function handleTouchMove(event) {
-    if (!isSwiping) return;
-
-    const touch = event.touches[0];
-    distanceX = touch.clientX - currentX; // Distanz des Wischens (horizontal)
-    currentX = touch.clientX;
-
-    // Bild verschieben
-    const lightboxImg = document.getElementById('lightbox-img');
-    lightboxImg.style.transform = `translateX(${distanceX}px)`;
-}
-
 function handleTouchEnd(event) {
-    if (!isSwiping) return;
-
-    isSwiping = false;
     touchEndX = event.changedTouches[0].clientX; // Endposition des Wischens (horizontal)
     touchEndY = event.changedTouches[0].clientY; // Endposition des Wischens (vertikal)
-
-    // Momentum und Fehlerbehandlung
     handleSwipe();
 }
 
-// Wischlogik mit Momentum und Fehlerbehandlung
+// Wischlogik
 function handleSwipe() {
-    const deltaX = touchEndX - startX; // Differenz zwischen Start- und Endposition (horizontal)
+    const deltaX = touchEndX - touchStartX; // Differenz zwischen Start- und Endposition (horizontal)
     const deltaY = touchEndY - touchStartY; // Differenz zwischen Start- und Endposition (vertikal)
-    const velocity = Math.abs(deltaX); // Geschwindigkeit des Wischens
 
-    // Wenn der Wisch weit genug ist (mehr als swipeThreshold) oder Schwung vorhanden ist (mehr als momentumThreshold)
-    if (Math.abs(deltaX) > swipeThreshold || velocity > momentumThreshold) {
+    // Wenn der Wisch weit genug ist (z. B. mehr als 50 Pixel), Aktion ausführen
+    if (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             // Horizontaler Wisch
             if (deltaX > 0) {
@@ -135,15 +134,14 @@ function handleSwipe() {
             } else {
                 changeImage(1); // Nach links wischen -> Nächstes Bild
             }
+        } else {
+            // Vertikaler Wisch
+            closeLightbox(); // Lightbox schließen
         }
-    } else {
-        // Bild zurück zur Mitte setzen, wenn der Wisch nicht ausreicht
-        const lightboxImg = document.getElementById('lightbox-img');
-        lightboxImg.style.transform = 'translateX(0)';
     }
 }
 
-// Tastatursteuerung
+// Tastatursteuerung (optional, bleibt unverändert)
 document.addEventListener('keydown', (event) => {
     const lightbox = document.getElementById('lightbox');
     if (lightbox.classList.contains('active')) {
