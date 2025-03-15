@@ -218,20 +218,25 @@ h2 {
     pointer-events: none; /* Verhindert, dass der Text das Bild überdeckt */
 }
 
-.image-container:hover .overlay-text {
-    opacity: 1;
-}
-
-/* Responsive Design für kleinere Bildschirme */
+/* Standardverhalten für Handys */
 @media (max-width: 768px) {
-    .portfolio-section {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Zwei Spalten */
+    .image-container img {
+        filter: brightness(0.7); /* Bild standardmäßig abgedunkelt */
+    }
+
+    .overlay-text {
+        opacity: 1; /* Schrift standardmäßig sichtbar */
     }
 }
 
-@media (max-width: 480px) {
-    .portfolio-section {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Eine Spalte */
+/* Hover-Effekt für Laptops */
+@media (min-width: 769px) {
+    .image-container:hover img {
+        filter: brightness(0.3); /* Bild wird dunkler */
+    }
+
+    .image-container:hover .overlay-text {
+        opacity: 1; /* Schrift wird sichtbar */
     }
 }
 
