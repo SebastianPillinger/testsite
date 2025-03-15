@@ -125,12 +125,6 @@ function showSlide(index) {
         const offset = -(currentIndex + 1) * 100; // +1, weil das erste Bild ein Klon ist
         slides.style.transform = `translateX(${offset}%)`;
     }
-	// Deaktiviere die Animation auf dem PC
-    if (!isMobile) {
-        slides.style.transition = 'none'; // Keine Animation auf dem PC
-    } else {
-        slides.style.transition = 'transform 0.5s ease-in-out'; // Animation auf mobilen Geräten
-    }
 }
 
 function nextSlide() {
