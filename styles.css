@@ -265,8 +265,7 @@ h2 {
     max-width: 90%;
     max-height: 90%;
     border-radius: 5px;
-    transform: scale(0.8);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease; /* Sanfte Animation für die Verschiebung */
 }
 
 .lightbox.active img {
