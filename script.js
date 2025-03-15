@@ -72,9 +72,23 @@ function closeLightbox() {
 }
 
 function changeImage(n) {
-    currentIndex = (currentIndex + n + images.length) % images.length;
     const lightboxImg = document.getElementById("lightbox-img");
-    lightboxImg.src = images[currentIndex];
+
+    // Füge eine Animation hinzu, bevor das Bild gewechselt wird
+    if (n === 1) {
+        lightboxImg.classList.add("slide-left"); // Bild gleitet nach links hinaus
+    } else if (n === -1) {
+        lightboxImg.classList.add("slide-right"); // Bild gleitet nach rechts hinaus
+    }
+
+    // Warte, bis die Animation abgeschlossen ist, bevor das Bild gewechselt wird
+    lightboxImg.addEventListener("transitionend", () => {
+        currentIndex = (currentIndex + n + images.length) % images.length;
+        lightboxImg.src = images[currentIndex];
+
+        // Entferne die Animation und setze das Bild zurück
+        lightboxImg.classList.remove("slide-left", "slide-right");
+    }, { once: true }); // Event-Listener wird nur einmal ausgeführt
 }
 
 // Tastatursteuerung
@@ -87,21 +101,19 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+// Touch-Events für Wischfunktion
 let touchStartX = 0;
 let touchEndX = 0;
 
-// Touch-Start-Event
 function handleTouchStart(event) {
     touchStartX = event.touches[0].clientX; // Speichert die Startposition des Wischens
 }
 
-// Touch-End-Event
 function handleTouchEnd(event) {
     touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
     handleSwipe(); // Verarbeitet die Wischbewegung
 }
 
-// Wischfunktion
 function handleSwipe() {
     const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
 
@@ -112,7 +124,6 @@ function handleSwipe() {
     }
 }
 
-// Touch-Events zur Lightbox hinzufügen
 const lightbox = document.getElementById('lightbox');
 lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
 lightbox.addEventListener('touchend', handleTouchEnd, { passive: true });
