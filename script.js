@@ -4,7 +4,7 @@ const mainNav = document.getElementById('main-nav');
 
 // Menü ein- oder ausblenden
 hamburgerMenu.addEventListener('click', (event) => {
-    event.stopPropagation();
+    event.stopPropagation(); // Verhindert, dass der Klick an das Dokument weitergegeben wird
     mainNav.classList.toggle('active');
 });
 
@@ -15,7 +15,7 @@ document.addEventListener('click', (event) => {
         const isClickOnHamburger = hamburgerMenu.contains(event.target);
 
         if (!isClickInsideNav && !isClickOnHamburger) {
-            mainNav.classList.remove('active');
+            mainNav.classList.remove('active'); // Menü schließen
         }
     }
 });
@@ -24,20 +24,47 @@ document.addEventListener('click', (event) => {
 const navLinks = document.querySelectorAll('#main-nav a');
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        mainNav.classList.remove('active');
+        mainNav.classList.remove('active'); // Menü schließen
     });
+});
+
+// Funktionen für Touch-Events
+function handleTouchStart(event) {
+    const imageContainer = event.currentTarget;
+    const image = imageContainer.querySelector('img');
+    const overlayText = imageContainer.querySelector('.overlay-text');
+
+    image.style.transform = 'scale(1.1)';
+    image.style.filter = 'brightness(0.7)';
+    overlayText.style.opacity = '1';
+}
+
+function handleTouchEnd(event) {
+    const imageContainer = event.currentTarget;
+    const image = imageContainer.querySelector('img');
+    const overlayText = imageContainer.querySelector('.overlay-text');
+
+    image.style.transform = 'scale(1)';
+    image.style.filter = 'brightness(1)';
+    overlayText.style.opacity = '0';
+}
+
+// Touch-Events zu allen Bildcontainern hinzufügen
+const imageContainers = document.querySelectorAll('.image-container');
+imageContainers.forEach(container => {
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchend', handleTouchEnd);
 });
 
 // Lightbox-Funktionen
 let currentIndex = 0;
 let images = [];
-let touchStartX = 0;
-let touchStartY = 0;
-let touchEndX = 0;
-let touchEndY = 0;
-const isMobile = window.innerWidth <= 768; // Prüft, ob die Bildschirmbreite ≤ 768px ist
+let touchStartX = 0; // Startposition des Wischens (horizontal)
+let touchStartY = 0; // Startposition des Wischens (vertikal)
+let touchEndX = 0; // Endposition des Wischens (horizontal)
+let touchEndY = 0; // Endposition des Wischens (vertikal)
 
-// Lightbox öffnen (für alle Geräte)
+// Lightbox öffnen
 function openLightbox(imageSrc, imageList) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -51,14 +78,12 @@ function openLightbox(imageSrc, imageList) {
     // Scrollen verhindern
     document.body.style.overflow = 'hidden';
 
-    // Touch-Events nur für mobile Geräte hinzufügen
-    if (isMobile) {
-        lightbox.addEventListener('touchstart', handleLightboxTouchStart, { passive: false });
-        lightbox.addEventListener('touchend', handleLightboxTouchEnd, { passive: false });
-    }
+    // Touch-Events für Wischen hinzufügen
+    lightbox.addEventListener('touchstart', handleTouchStart, { passive: false });
+    lightbox.addEventListener('touchend', handleTouchEnd, { passive: false });
 }
 
-// Lightbox schließen (für alle Geräte)
+// Lightbox schließen
 function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
     lightbox.classList.remove('active');
@@ -66,67 +91,57 @@ function closeLightbox() {
     // Scrollen wieder erlauben
     document.body.style.overflow = 'auto';
 
-    // Touch-Events entfernen (nur für mobile Geräte)
-    if (isMobile) {
-        lightbox.removeEventListener('touchstart', handleLightboxTouchStart);
-        lightbox.removeEventListener('touchend', handleLightboxTouchEnd);
-    }
+    // Touch-Events entfernen
+    lightbox.removeEventListener('touchstart', handleTouchStart);
+    lightbox.removeEventListener('touchend', handleTouchEnd);
 }
 
-// Bildwechsel (für Laptops)
+// Bildwechsel
 function changeImage(n) {
-    const lightboxImg = document.getElementById('lightbox-img');
-    const newIndex = currentIndex + n;
+    currentIndex += n;
 
     // Zyklisches Durchlaufen der Bilder
-    if (newIndex >= images.length) currentIndex = 0;
-    else if (newIndex < 0) currentIndex = images.length - 1;
-    else currentIndex = newIndex;
+    if (currentIndex >= images.length) currentIndex = 0;
+    if (currentIndex < 0) currentIndex = images.length - 1;
 
-    // Neues Bild anzeigen
+    const lightboxImg = document.getElementById('lightbox-img');
     lightboxImg.src = images[currentIndex];
 }
 
-// Touch-Event-Handler für Lightbox (nur für mobile Geräte)
-function handleLightboxTouchStart(event) {
-    if (isMobile) {
-        touchStartX = event.touches[0].clientX;
-        touchStartY = event.touches[0].clientY;
-    }
+// Touch-Event-Handler
+function handleTouchStart(event) {
+    touchStartX = event.touches[0].clientX; // Startposition des Wischens (horizontal)
+    touchStartY = event.touches[0].clientY; // Startposition des Wischens (vertikal)
 }
 
-function handleLightboxTouchEnd(event) {
-    if (isMobile) {
-        touchEndX = event.changedTouches[0].clientX;
-        touchEndY = event.changedTouches[0].clientY;
-        handleSwipe();
-    }
+function handleTouchEnd(event) {
+    touchEndX = event.changedTouches[0].clientX; // Endposition des Wischens (horizontal)
+    touchEndY = event.changedTouches[0].clientY; // Endposition des Wischens (vertikal)
+    handleSwipe();
 }
 
-// Wischlogik (nur für mobile Geräte)
+// Wischlogik
 function handleSwipe() {
-    if (isMobile) {
-        const deltaX = touchEndX - touchStartX;
-        const deltaY = touchEndY - touchStartY;
+    const deltaX = touchEndX - touchStartX; // Differenz zwischen Start- und Endposition (horizontal)
+    const deltaY = touchEndY - touchStartY; // Differenz zwischen Start- und Endposition (vertikal)
 
-        // Wenn der Wisch weit genug ist (z. B. mehr als 50 Pixel), Aktion ausführen
-        if (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50) {
-            if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                // Horizontaler Wisch
-                if (deltaX > 0) {
-                    changeImage(-1); // Nach rechts wischen -> Vorheriges Bild
-                } else {
-                    changeImage(1); // Nach links wischen -> Nächstes Bild
-                }
+    // Wenn der Wisch weit genug ist (z. B. mehr als 50 Pixel), Aktion ausführen
+    if (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50) {
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Horizontaler Wisch
+            if (deltaX > 0) {
+                changeImage(-1); // Nach rechts wischen -> Vorheriges Bild
             } else {
-                // Vertikaler Wisch
-                closeLightbox(); // Lightbox schließen
+                changeImage(1); // Nach links wischen -> Nächstes Bild
             }
+        } else {
+            // Vertikaler Wisch
+            closeLightbox(); // Lightbox schließen
         }
     }
 }
 
-// Tastatursteuerung (für Laptops)
+// Tastatursteuerung (optional, bleibt unverändert)
 document.addEventListener('keydown', (event) => {
     const lightbox = document.getElementById('lightbox');
     if (lightbox.classList.contains('active')) {
@@ -136,11 +151,27 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Event-Listener für Klicks auf Bilder
-document.querySelectorAll('.image-container img').forEach(img => {
-    img.addEventListener('click', () => {
-        const imageSrc = img.src;
-        const imageList = Array.from(document.querySelectorAll('.image-container img')).map(img => img.src);
-        openLightbox(imageSrc, imageList);
+// Kopieren in die Zwischenablage
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Kopiert: ' + text);
+    }).catch(() => {
+        alert('Kopieren fehlgeschlagen. Bitte manuell kopieren: ' + text);
+    });
+}
+
+// Smooth Scroll für interne Links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault(); // Verhindert das Standardverhalten
+        const targetId = this.getAttribute('href').substring(1); // Holt die Ziel-ID
+        const targetElement = document.getElementById(targetId); // Findet das Ziel-Element
+
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth', // Sanftes Scrollen
+                block: 'start' // Scrollt zum Anfang des Abschnitts
+            });
+        }
     });
 });
