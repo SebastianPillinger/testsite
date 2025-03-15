@@ -85,11 +85,16 @@ function closeLightbox() {
 }
 
 function showSlide(index) {
+    // Wenn der Index größer als die Anzahl der Bilder ist, springe zum ersten Bild
     if (index >= images.length) {
-        currentIndex = 0; // Zurück zum ersten Bild, wenn Ende erreicht
-    } else if (index < 0) {
-        currentIndex = images.length - 1; // Zum letzten Bild, wenn Anfang erreicht
-    } else {
+        currentIndex = 0;
+    } 
+    // Wenn der Index kleiner als 0 ist, springe zum letzten Bild
+    else if (index < 0) {
+        currentIndex = images.length - 1;
+    } 
+    // Ansonsten setze den aktuellen Index
+    else {
         currentIndex = index;
     }
 
