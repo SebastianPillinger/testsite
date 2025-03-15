@@ -99,31 +99,22 @@ function closeLightbox() {
 }
 
 function showSlide(index) {
-    // Wenn der Index größer als die Anzahl der Bilder ist, springe zum ersten Bild
     if (index >= images.length) {
         currentIndex = 0;
-        slides.style.transition = 'none'; // Keine Animation für den Übergang
-        slides.style.transform = `translateX(-100%)`; // Springe zum ersten Bild
-        setTimeout(() => {
-            slides.style.transition = 'transform 0.5s ease-in-out'; // Animation wieder aktivieren
-            showSlide(currentIndex + 1); // Zeige das erste Bild mit Animation
-        }, 0);
-    } 
-    // Wenn der Index kleiner als 0 ist, springe zum letzten Bild
-    else if (index < 0) {
+    } else if (index < 0) {
         currentIndex = images.length - 1;
-        slides.style.transition = 'none'; // Keine Animation für den Übergang
-        slides.style.transform = `translateX(-${(images.length + 1) * 100}%)`; // Springe zum letzten Bild
-        setTimeout(() => {
-            slides.style.transition = 'transform 0.5s ease-in-out'; // Animation wieder aktivieren
-            showSlide(currentIndex + 1); // Zeige das letzte Bild mit Animation
-        }, 0);
-    } 
-    // Ansonsten setze den aktuellen Index
-    else {
+    } else {
         currentIndex = index;
-        const offset = -(currentIndex + 1) * 100; // +1, weil das erste Bild ein Klon ist
-        slides.style.transform = `translateX(${offset}%)`;
+    }
+
+    const offset = -(currentIndex + 1) * 100; // +1, weil das erste Bild ein Klon ist
+    slides.style.transform = `translateX(${offset}%)`;
+	
+	// Deaktiviere die Animation auf dem PC
+    if (!isMobile) {
+        slides.style.transition = 'none'; // Keine Animation auf dem PC
+    } else {
+        slides.style.transition = 'transform 0.5s ease-in-out'; // Animation auf mobilen Geräten
     }
 }
 
@@ -146,16 +137,50 @@ document.addEventListener('keydown', (event) => {
 
 // Touch-Events für Wischfunktion (nur für mobile Geräte)
 let touchStartX = 0;
-let touchEndX = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
 
+// Touch-Start: Speichere die Startposition
 function handleTouchStart(event) {
-    touchStartX = event.touches[0].clientX; // Speichert die Startposition des Wischens
+    touchStartX = event.touches[0].clientX;
+    touchCurrentX = touchStartX;
+    isSwiping = true;
+    slides.style.transition = 'none'; // Deaktiviere die Animation während des Wischens
 }
 
-function handleTouchEnd(event) {
-    touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
-    handleSwipe(); // Verarbeitet die Wischbewegung
+// Touch-Move: Bewege die Slideshow basierend auf der Fingerbewegung
+function handleTouchMove(event) {
+    if (!isSwiping) return;
+
+    touchCurrentX = event.touches[0].clientX;
+    const deltaX = touchCurrentX - touchStartX; // Berechne die Differenz
+    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100; // Verschiebe die Slideshow
+    slides.style.transform = `translateX(${offset}%)`;
 }
+
+// Touch-End: Beende den Swipe und zeige das nächste/vorherige Bild
+function handleTouchEnd() {
+    if (!isSwiping) return;
+
+    isSwiping = false;
+    slides.style.transition = 'transform 0.5s ease-in-out'; // Aktiviere die Animation wieder
+
+    const deltaX = touchCurrentX - touchStartX;
+    const swipeThreshold = window.innerWidth * 0.2; // Mindestlänge des Wischens (20% der Bildschirmbreite)
+
+    if (deltaX < -swipeThreshold) {
+        nextSlide(); // Wischen nach links (nächstes Bild)
+    } else if (deltaX > swipeThreshold) {
+        prevSlide(); // Wischen nach rechts (vorheriges Bild)
+    } else {
+        showSlide(currentIndex); // Kein Swipe: Zeige das aktuelle Bild
+    }
+}
+
+// Event-Listener hinzufügen
+slides.addEventListener('touchstart', handleTouchStart, { passive: true });
+slides.addEventListener('touchmove', handleTouchMove, { passive: true });
+slides.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 function handleSwipe() {
     const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
