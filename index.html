@@ -3,129 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fotografie Welt</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px 0;
-            text-align: center;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: #444;
-            padding: 10px 0;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .hero {
-            background: url('blog1.jpg') no-repeat center center/cover;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .content {
-            padding: 20px;
-            text-align: center;
-        }
-        .content h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        .content p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            margin-top: 20px;
-        }
-    </style>
+    <meta name="description" content="Sebastian Pillinger – Fotografie für Hochzeiten, Events und Unternehmen in Graz. Jetzt anfragen!">
+    <meta name="keywords" content="Fotograf, Hochzeitsfotografie, Eventfotografie, Graz, Sebastian Pillinger">
+    <meta property="og:title" content="Sebastian Pillinger – Fotografie">
+    <meta property="og:description" content="Fotografie für Hochzeiten, Events und Unternehmen in Graz. Jetzt anfragen!">
+    <meta property="og:image" content="https://www.deinewebsite.de/bilder/header.jpg">
+    <meta property="og:url" content="https://www.deinewebsite.de">
+    <title>Sebastian Pillinger – Fotografie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">    
 </head>
 <body>
+    <!-- Dark Mode Switch -->
+    <div class="dark-mode-switch">
+        <label for="dark-mode-toggle">Dark Mode</label>
+        <input type="checkbox" id="dark-mode-toggle">
+    </div>
 
-    <header>
-        <h1>Fotografie Welt</h1>
-    </header>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#about">Über uns</a>
-        <a href="#gallery">Galerie</a>
-        <a href="#blog">Blog</a>
+    <nav aria-label="Hauptnavigation">
+        <a href="#about">Über mich</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#services">Leistungen</a>
+        <a href="#testimonials">Kundenfeedback</a>
         <a href="#contact">Kontakt</a>
     </nav>
+    
+    <header>
+        <h1>Sebastian Pillinger – Fotografie</h1>
+    </header>
+    
+    <!-- Über mich -->
+    <section id="about">
+        <h2>Über mich</h2>
+        <div class="about-container">
+            <div class="about-text">
+                <p>Hallo, ich bin Sebastian Pillinger, ein 33-jähriger Fotograf aus Graz. Seit 2025 bin ich selbstständig und blicke auf über 10 Jahre Erfahrung in der Fotografie zurück.</p>
+                <p>Meine Leidenschaft gilt der kreativen Gestaltung von Momenten – ob bei Hochzeiten, Events oder industriellen Projekten. Ich arbeite regelmäßig mit professionellen Fotografen zusammen und liebe es, Geschichten durch meine Bilder zu erzählen.</p>
+                <a href="#contact" class="cta-button" aria-label="Kontaktiere mich">Kontaktiere mich</a>
+            </div>
+            <div class="about-image">
+                <img src="bilder/portrait.jpg" alt="Sebastian Pillinger" loading="lazy">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Portfolio -->
+	<section id="portfolio">
+		<h2>Portfolio</h2>
+		<div class="portfolio-section">
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/linzm1.jpg" alt="Linz-Marathon" loading="lazy" 
+						 onclick="openLightbox('bilder/linzm1.jpg', ['bilder/linzm1.jpg', 'bilder/linzm2.jpg', 'bilder/linzm3.jpg'])">
+					<div class="overlay-text">Linz-Marathon</div>
+				</div>
+			</div>
+			
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/rr1.jpg" alt="Kasberg-Inferno" loading="lazy" 
+						 onclick="openLightbox('bilder/rr1.jpg', ['bilder/rr1.jpg', 'bilder/rr2.jpg', 'bilder/rr3.jpg', 'bilder/rr4.jpg', 'bilder/rr5.jpg'])">
+					<div class="overlay-text">Kasberg-Inferno</div>
+				</div>
+			</div>
 
-    <div class="hero">
-        <h1>Willkommen in der Welt der Fotografie</h1>
-    </div>
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/hochzeit1.jpg" alt="Hochzeitsfotografie" loading="lazy" 
+						 onclick="openLightbox('bilder/hochzeit1.jpg', ['bilder/hochzeit1.jpg', 'bilder/hochzeit2.jpg', 'bilder/hochzeit3.jpg'])">
+					<div class="overlay-text">Hochzeiten</div>
+				</div>
+			</div>
 
-    <div class="content" id="about">
-        <h2>Über uns</h2>
-        <p>
-            Fotografie ist mehr als nur ein Hobby – es ist eine Leidenschaft, die es uns ermöglicht, die Welt durch die Linse zu sehen. 
-            Auf unserer Seite teilen wir Tipps, Tricks und inspirierende Geschichten rund um die Fotografie. 
-            Egal, ob du Anfänger oder Profi bist, hier findest du alles, was du brauchst, um deine Fähigkeiten zu verbessern.
-        </p>
-    </div>
-
-    <div class="content" id="gallery">
-        <h2>Galerie</h2>
-        <p>
-            Schau dir unsere neuesten Werke an und lass dich inspirieren. Klicke auf das Bild unten, um mehr zu erfahren.
-        </p>
-        <a href="blog1.jpg" target="_blank">
-            <img src="blog1.jpg" alt="Fotografie Blog Bild" style="max-width: 100%; height: auto; border-radius: 10px;">
-        </a>
-    </div>
-
-    <div class="content" id="blog">
-        <h2>Blog</h2>
-        <p>
-            In unserem Blog teilen wir regelmäßig neue Artikel, Tutorials und Erfahrungsberichte. 
-            Verpasse keine Updates und bleibe auf dem Laufenden!
-        </p>
-    </div>
-
-    <div class="content" id="contact">
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/tiere1.jpg" alt="Haustiere" loading="lazy" 
+						 onclick="openLightbox('bilder/tiere1.jpg', ['bilder/tiere1.jpg', 'bilder/tiere2.jpg', 'bilder/tiere3.jpg', 'bilder/tiere4.jpg', 'bilder/tiere5.jpg', 'bilder/tiere6.jpg', 'bilder/tiere7.jpg', 'bilder/tiere8.jpg', 'biler/tiered9.jpg'])">
+					<div class="overlay-text">Haustiere</div>
+				</div>
+			</div>
+			
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/wildlife1.jpg" alt="Wildlife" loading="lazy" 
+						 onclick="openLightbox('bilder/wildlife1.jpg', ['bilder/wildlife1.jpg', 'bilder/wildlife2.jpg', 'bilder/wildlife3.jpg', 'bilder/wildlife4.jpg', 'bilder/wildlife5.jpg', 'bilder/wildlife6.jpg'])">
+					<div class="overlay-text">Wildlife</div>
+				</div>
+			</div>
+			
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/party1.jpg" alt="Partyfotografie" loading="lazy" 
+						 onclick="openLightbox('bilder/party1.jpg', ['bilder/party1.jpg', 'bilder/party2.jpg', 'bilder/party3.jpg'])">
+					<div class="overlay-text">Partys</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    
+    <!-- Leistungen -->
+    <section id="services">
+        <h2>Leistungen</h2>
+        <ul style="list-style-type: none; font-size: 1.6em;">
+            <li>Hochzeitsfotografie</li>
+            <li>Event- und Partyfotografie</li>
+            <li>Unternehmensfotografie</li>
+            <li>Hotelfotografie</li>
+            <li>Industrie- und Architekturfotografie</li>
+        </ul>
+    </section>
+    
+    <!-- Kundenfeedback -->
+    <section id="testimonials">
+        <h2>Kundenfeedback</h2>
+        <div class="testimonials">
+            <div class="testimonial">
+                <p>"Sebastian hat unsere Hochzeit perfekt festgehalten. Die Fotos sind atemberaubend!"</p>
+                <cite>– Anna und Markus</cite>
+            </div>
+            <div class="testimonial">
+                <p>"Professionelle Arbeit und eine Freude, mit ihm zusammenzuarbeiten."</p>
+                <cite>– Eventagentur Graz</cite>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Kontakt -->
+    <section id="contact">
         <h2>Kontakt</h2>
+        <p>Ich freue mich über deine Anfrage!</p>
+        <p>Email: <span class="contact-link" onclick="copyToClipboard('sebastian.pillinger@gmx.at')">sebastian.pillinger@gmx.at</span></p>
+        <p>Telefon: <span class="contact-link" onclick="copyToClipboard('+43 677 62026186')">+43 677 62026186</span></p>
         <p>
-            Hast du Fragen oder möchtest du mit uns zusammenarbeiten? Kontaktiere uns gerne über das untenstehende Formular.
+            <a href="https://instagram.com/vergrazt" target="_blank" class="contact-link">Instagram</a> | 
+            <a href="https://facebook.com/yourprofile" target="_blank" class="contact-link">Facebook</a> | 
+            <a href="https://twitter.com/yourprofile" target="_blank" class="contact-link">Twitter</a>
         </p>
-    </div>
-
+    </section>
+    
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2023 Fotografie Welt. Alle Rechte vorbehalten.</p>
+        <p>&copy; 2025 Sebastian Pillinger – Alle Rechte vorbehalten</p>
+        <p><a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a></p>
     </footer>
 
+    <!-- Lightbox -->
+	<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+		<span class="lightbox-arrow left" onclick="event.stopPropagation(); changeImage(-1)">&#10094;</span>
+		<img src="" alt="Vergrößertes Bild" id="lightbox-img">
+		<span class="lightbox-arrow right" onclick="event.stopPropagation(); changeImage(1)">&#10095;</span>
+	</div>
+	
+	<script src="script.js"></script>
+	
 </body>
 </html>
