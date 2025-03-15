@@ -54,15 +54,11 @@ portfolioData.forEach(item => {
 // Lightbox-Funktionen
 let currentIndex = 0;
 let images = [];
-let isAnimating = false; // Verhindert, dass während einer Animation ein weiterer Wechsel ausgelöst wird
 
 function openLightbox(imageSrc, imageList) {
     const lightbox = document.getElementById("lightbox");
-    const lightboxImgCurrent = document.getElementById("lightbox-img-current");
-    const lightboxImgNext = document.getElementById("lightbox-img-next");
-
-    lightboxImgCurrent.src = imageSrc;
-    lightboxImgNext.src = ""; // Setzt das nächste Bild zurück
+    const lightboxImg = document.getElementById("lightbox-img");
+    lightboxImg.src = imageSrc;
     lightbox.classList.add("active");
     images = imageList;
     currentIndex = images.indexOf(imageSrc);
@@ -76,32 +72,9 @@ function closeLightbox() {
 }
 
 function changeImage(n) {
-    if (isAnimating) return; // Verhindert, dass während einer Animation ein weiterer Wechsel ausgelöst wird
-
-    const lightboxImages = document.querySelector(".lightbox-images");
-    const lightboxImgCurrent = document.getElementById("lightbox-img-current");
-    const lightboxImgNext = document.getElementById("lightbox-img-next");
-
-    // Berechnet den Index des nächsten Bildes
-    const nextIndex = (currentIndex + n + images.length) % images.length;
-    lightboxImgNext.src = images[nextIndex]; // Lädt das nächste Bild
-
-    // Startet die Animation
-    isAnimating = true;
-    if (n === 1) {
-        lightboxImages.classList.add("slide-left"); // Animation nach links
-    } else if (n === -1) {
-        lightboxImages.classList.add("slide-right"); // Animation nach rechts
-    }
-
-    // Wartet, bis die Animation abgeschlossen ist
-    lightboxImages.addEventListener("transitionend", () => {
-        lightboxImages.classList.remove("slide-left", "slide-right");
-        lightboxImgCurrent.src = lightboxImgNext.src; // Setzt das aktuelle Bild auf das neue Bild
-        lightboxImgNext.src = ""; // Setzt das nächste Bild zurück
-        currentIndex = nextIndex; // Aktualisiert den aktuellen Index
-        isAnimating = false; // Beendet die Animation
-    }, { once: true }); // Event-Listener wird nur einmal ausgeführt
+    currentIndex = (currentIndex + n + images.length) % images.length;
+    const lightboxImg = document.getElementById("lightbox-img");
+    lightboxImg.src = images[currentIndex];
 }
 
 // Tastatursteuerung
@@ -117,28 +90,45 @@ document.addEventListener("keydown", (event) => {
 // Touch-Events für Wischfunktion
 let touchStartX = 0;
 let touchEndX = 0;
+let isSwiping = false;
 
 function handleTouchStart(event) {
     touchStartX = event.touches[0].clientX; // Speichert die Startposition des Wischens
+    isSwiping = true;
+}
+
+function handleTouchMove(event) {
+    if (!isSwiping) return;
+
+    const lightboxImg = document.getElementById("lightbox-img");
+    const deltaX = event.touches[0].clientX - touchStartX; // Berechnet die horizontale Bewegung
+
+    // Bewegt das Bild während des Wischens
+    lightboxImg.style.transform = `translateX(${deltaX}px)`;
 }
 
 function handleTouchEnd(event) {
-    touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
-    handleSwipe(); // Verarbeitet die Wischbewegung
-}
+    if (!isSwiping) return;
 
-function handleSwipe() {
+    touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
+    const deltaX = touchEndX - touchStartX; // Berechnet die horizontale Bewegung
     const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
 
-    if (touchEndX < touchStartX - swipeThreshold) {
+    if (deltaX < -swipeThreshold) {
         changeImage(1); // Wischen nach links (nächstes Bild)
-    } else if (touchEndX > touchStartX + swipeThreshold) {
+    } else if (deltaX > swipeThreshold) {
         changeImage(-1); // Wischen nach rechts (vorheriges Bild)
     }
+
+    // Setzt die Position des Bildes zurück
+    const lightboxImg = document.getElementById("lightbox-img");
+    lightboxImg.style.transform = "translateX(0)";
+    isSwiping = false;
 }
 
 const lightbox = document.getElementById('lightbox');
 lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
+lightbox.addEventListener('touchmove', handleTouchMove, { passive: true });
 lightbox.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 // Kopieren in die Zwischenablage
