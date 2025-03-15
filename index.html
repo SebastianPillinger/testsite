@@ -14,19 +14,21 @@
     <link rel="stylesheet" href="styles.css">    
 </head>
 <body>
-    <!-- Dark Mode Switch -->
-    <div class="dark-mode-switch">
-        <label for="dark-mode-toggle">Dark Mode</label>
-        <input type="checkbox" id="dark-mode-toggle">
-    </div>
+	<!-- Hamburger-Menü-Icon -->
+	<div class="hamburger-menu" id="hamburger-menu">
+		<div class="bar"></div>
+		<div class="bar"></div>
+		<div class="bar"></div>
+	</div>
 
-    <nav aria-label="Hauptnavigation">
-        <a href="#about">Über mich</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#services">Leistungen</a>
-        <a href="#testimonials">Kundenfeedback</a>
-        <a href="#contact">Kontakt</a>
-    </nav>
+    <!-- Hauptnavigation -->
+	<nav aria-label="Hauptnavigation" id="main-nav">
+		<a href="#about">Über mich</a>
+		<a href="#portfolio">Portfolio</a>
+		<a href="#services">Leistungen</a>
+		<a href="#testimonials">Kundenfeedback</a>
+		<a href="#contact">Kontakt</a>
+	</nav>
     
     <header>
         <h1>Sebastian Pillinger – Fotografie</h1>
@@ -62,7 +64,7 @@
 			<div class="portfolio-gallery">
 				<div class="image-container">
 					<img src="bilder/rr1.jpg" alt="Kasberg-Inferno" loading="lazy" 
-						 onclick="openLightbox('bilder/rr1.jpg', ['bilder/rr1.jpg', 'bilder/rr2.jpg', 'bilder/rr3.jpg', 'bilder/rr4.jpg', 'bilder/rr5.jpg', 'bilder/rr6.jpg'])">
+						 onclick="openLightbox('bilder/rr1.jpg', ['bilder/rr1.jpg', 'bilder/rr2.jpg', 'bilder/rr3.jpg', 'bilder/rr4.jpg', 'bilder/rr5.jpg'])">
 					<div class="overlay-text">Kasberg-Inferno</div>
 				</div>
 			</div>
