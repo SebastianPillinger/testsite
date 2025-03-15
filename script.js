@@ -109,8 +109,8 @@ function showSlide(index) {
 
     const offset = -(currentIndex + 1) * 100; // +1, weil das erste Bild ein Klon ist
     slides.style.transform = `translateX(${offset}%)`;
-	
-	// Deaktiviere die Animation auf dem PC
+
+    // Deaktiviere die Animation auf dem PC
     if (!isMobile) {
         slides.style.transition = 'none'; // Keine Animation auf dem PC
     } else {
@@ -181,22 +181,6 @@ function handleTouchEnd() {
 slides.addEventListener('touchstart', handleTouchStart, { passive: true });
 slides.addEventListener('touchmove', handleTouchMove, { passive: true });
 slides.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-function handleSwipe() {
-    const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
-
-    if (touchEndX < touchStartX - swipeThreshold) {
-        nextSlide(); // Wischen nach links (nächstes Bild)
-    } else if (touchEndX > touchStartX + swipeThreshold) {
-        prevSlide(); // Wischen nach rechts (vorheriges Bild)
-    }
-}
-
-// Wischfunktion nur für mobile Geräte aktivieren
-if (isMobile) {
-    lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
-    lightbox.addEventListener('touchend', handleTouchEnd, { passive: true });
-}
 
 // Kopieren in die Zwischenablage
 function copyToClipboard(text) {
