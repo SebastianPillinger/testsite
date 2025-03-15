@@ -87,6 +87,32 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+let touchStartX = 0;
+let touchEndX = 0;
+
+function handleTouchStart(event) {
+    touchStartX = event.touches[0].clientX;
+}
+
+function handleTouchEnd(event) {
+    touchEndX = event.changedTouches[0].clientX;
+    handleSwipe();
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
+
+    if (touchEndX < touchStartX - swipeThreshold) {
+        changeImage(1); // Wischen nach links
+    } else if (touchEndX > touchStartX + swipeThreshold) {
+        changeImage(-1); // Wischen nach rechts
+    }
+}
+
+const lightbox = document.getElementById('lightbox');
+lightbox.addEventListener('touchstart', handleTouchStart, false);
+lightbox.addEventListener('touchend', handleTouchEnd, false);
+
 // Kopieren in die Zwischenablage
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
