@@ -28,34 +28,6 @@ navLinks.forEach(link => {
     });
 });
 
-// Funktionen für Touch-Events
-function handleTouchStart(event) {
-    const imageContainer = event.currentTarget;
-    const image = imageContainer.querySelector('img');
-    const overlayText = imageContainer.querySelector('.overlay-text');
-
-    image.style.transform = 'scale(1.1)';
-    image.style.filter = 'brightness(0.7)';
-    overlayText.style.opacity = '1';
-}
-
-function handleTouchEnd(event) {
-    const imageContainer = event.currentTarget;
-    const image = imageContainer.querySelector('img');
-    const overlayText = imageContainer.querySelector('.overlay-text');
-
-    image.style.transform = 'scale(1)';
-    image.style.filter = 'brightness(1)';
-    overlayText.style.opacity = '0';
-}
-
-// Touch-Events zu allen Bildcontainern hinzufügen
-const imageContainers = document.querySelectorAll('.image-container');
-imageContainers.forEach(container => {
-    container.addEventListener('touchstart', handleTouchStart);
-    container.addEventListener('touchend', handleTouchEnd);
-});
-
 // Lightbox-Funktionen
 let currentIndex = 0;
 let images = [];
@@ -72,19 +44,14 @@ const momentumThreshold = 100; // Schwung, um das Bild zu wechseln
 
 // Lightbox öffnen
 function openLightbox(imageSrc, imageList) {
-    console.log('Lightbox öffnen:', imageSrc); // Debugging
     const lightbox = document.getElementById('lightbox');
-    const lightboxImgCurrent = document.getElementById('lightbox-img-current');
-    const lightboxImgNext = document.getElementById('lightbox-img-next');
-    lightboxImgCurrent.src = imageSrc;
+    const lightboxImg = document.getElementById('lightbox-img');
+    lightboxImg.src = imageSrc;
     lightbox.classList.add('active');
 
     // Bilderliste speichern
     images = imageList;
     currentIndex = images.indexOf(imageSrc);
-
-    // Nächstes Bild vorbereiten
-    lightboxImgNext.src = images[currentIndex + 1 >= images.length ? 0 : currentIndex + 1];
 
     // Scrollen verhindern
     document.body.style.overflow = 'hidden';
@@ -117,14 +84,9 @@ function changeImage(n) {
     if (currentIndex >= images.length) currentIndex = 0;
     if (currentIndex < 0) currentIndex = images.length - 1;
 
-    const lightboxImgCurrent = document.getElementById('lightbox-img-current');
-    const lightboxImgNext = document.getElementById('lightbox-img-next');
-    lightboxImgCurrent.src = images[currentIndex];
-    lightboxImgNext.src = images[currentIndex + n >= images.length ? images[0] : images[currentIndex + n]; // Nächstes Bild vorbereiten
-
-    // Bilder zurücksetzen
-    lightboxImgCurrent.style.transform = 'translateX(0)';
-    lightboxImgNext.style.transform = n > 0 ? 'translateX(100%)' : 'translateX(-100%)';
+    const lightboxImg = document.getElementById('lightbox-img');
+    lightboxImg.src = images[currentIndex];
+    lightboxImg.style.transform = 'translateX(0)'; // Bild zurück zur Mitte setzen
 }
 
 // Touch-Event-Handler
@@ -142,11 +104,9 @@ function handleTouchMove(event) {
     distanceX = touch.clientX - currentX; // Distanz des Wischens (horizontal)
     currentX = touch.clientX;
 
-    // Beide Bilder verschieben
-    const lightboxImgCurrent = document.getElementById('lightbox-img-current');
-    const lightboxImgNext = document.getElementById('lightbox-img-next');
-    lightboxImgCurrent.style.transform = `translateX(${distanceX}px)`;
-    lightboxImgNext.style.transform = `translateX(${distanceX + (distanceX > 0 ? -100 : 100)}px)`;
+    // Bild verschieben
+    const lightboxImg = document.getElementById('lightbox-img');
+    lightboxImg.style.transform = `translateX(${distanceX}px)`;
 }
 
 function handleTouchEnd(event) {
@@ -177,23 +137,11 @@ function handleSwipe() {
             }
         }
     } else {
-        // Bilder zurücksetzen, wenn der Wisch nicht ausreicht
-        const lightboxImgCurrent = document.getElementById('lightbox-img-current');
-        const lightboxImgNext = document.getElementById('lightbox-img-next');
-        lightboxImgCurrent.style.transform = 'translateX(0)';
-        lightboxImgNext.style.transform = deltaX > 0 ? 'translateX(-100%)' : 'translateX(100%)';
+        // Bild zurück zur Mitte setzen, wenn der Wisch nicht ausreicht
+        const lightboxImg = document.getElementById('lightbox-img');
+        lightboxImg.style.transform = 'translateX(0)';
     }
 }
-
-// Lightbox-Öffnungsfunktion für Portfolio-Bilder
-document.querySelectorAll('.portfolio-gallery img').forEach((img, index) => {
-    img.addEventListener('click', () => {
-        console.log('Bild geklickt:', img.src); // Debugging
-        const imageList = Array.from(document.querySelectorAll('.portfolio-gallery img')).map(img => img.src);
-        console.log('Bildliste:', imageList); // Debugging
-        openLightbox(img.src, imageList);
-    });
-});
 
 // Tastatursteuerung
 document.addEventListener('keydown', (event) => {
