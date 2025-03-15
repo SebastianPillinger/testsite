@@ -60,6 +60,7 @@ imageContainers.forEach(container => {
 let currentIndex = 0;
 let images = [];
 let touchStartX = 0; // Startposition des Wischens
+let touchEndX = 0; // Endposition des Wischens
 
 // Lightbox öffnen
 function openLightbox(imageSrc, imageList) {
@@ -74,7 +75,6 @@ function openLightbox(imageSrc, imageList) {
 
     // Touch-Events für Wischen hinzufügen
     lightbox.addEventListener('touchstart', handleTouchStart, { passive: false });
-    lightbox.addEventListener('touchmove', handleTouchMove, { passive: false });
     lightbox.addEventListener('touchend', handleTouchEnd, { passive: false });
 }
 
@@ -85,7 +85,6 @@ function closeLightbox() {
 
     // Touch-Events entfernen
     lightbox.removeEventListener('touchstart', handleTouchStart);
-    lightbox.removeEventListener('touchmove', handleTouchMove);
     lightbox.removeEventListener('touchend', handleTouchEnd);
 }
 
@@ -106,12 +105,13 @@ function handleTouchStart(event) {
     touchStartX = event.touches[0].clientX; // Startposition des Wischens speichern
 }
 
-function handleTouchMove(event) {
-    event.preventDefault(); // Verhindert das Standard-Scrollverhalten
+function handleTouchEnd(event) {
+    touchEndX = event.changedTouches[0].clientX; // Endposition des Wischens
+    handleSwipe();
 }
 
-function handleTouchEnd(event) {
-    const touchEndX = event.changedTouches[0].clientX; // Endposition des Wischens
+// Wischlogik
+function handleSwipe() {
     const deltaX = touchEndX - touchStartX; // Differenz zwischen Start- und Endposition
 
     // Wenn der Wisch weit genug ist (z. B. mehr als 50 Pixel), Bild wechseln
