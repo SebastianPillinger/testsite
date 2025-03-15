@@ -240,7 +240,7 @@ h2 {
     }
 }
 
-/* Lightbox-Container */
+/* Lightbox */
 .lightbox {
     display: none;
     position: fixed;
@@ -261,15 +261,18 @@ h2 {
     opacity: 1;
 }
 
-/* Lightbox-Bild */
 .lightbox img {
     max-width: 90%;
     max-height: 90%;
     border-radius: 5px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
 }
 
-/* Lightbox-Pfeile */
+.lightbox.active img {
+    transform: scale(1);
+}
+
 .lightbox-arrow {
     position: absolute;
     top: 50%;
@@ -294,32 +297,6 @@ h2 {
     background: rgba(0, 0, 0, 0.2);
 }
 
-.lightbox img.slide-in-right {
-    transform: translateX(100%);
-    opacity: 0;
-}
-
-.lightbox img.slide-in-left {
-    transform: translateX(-100%);
-    opacity: 0;
-}
-
-/* Animation für das Herauswischen */
-.lightbox img.slide-out-right {
-    transform: translateX(100%);
-    opacity: 0;
-}
-
-.lightbox img.slide-out-left {
-    transform: translateX(-100%);
-    opacity: 0;
-}
-
-/* Aktuelles Bild */
-.lightbox img.active {
-    transform: translateX(0);
-    opacity: 1;
-}
 
 /* Kundenfeedback */
 .testimonials {
