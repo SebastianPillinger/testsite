@@ -28,135 +28,71 @@ navLinks.forEach(link => {
     });
 });
 
-// Funktionen für Touch-Events
-function handleTouchStart(event) {
-    const imageContainer = event.currentTarget;
-    const image = imageContainer.querySelector('img');
-    const overlayText = imageContainer.querySelector('.overlay-text');
+// Dynamisches Laden der Portfolio-Bilder
+const portfolioData = [
+    { src: "bilder/linzm1.jpg", alt: "Linz-Marathon", images: ["bilder/linzm1.jpg", "bilder/linzm2.jpg", "bilder/linzm3.jpg"] },
+    { src: "bilder/rr1.jpg", alt: "Kasberg-Inferno", images: ["bilder/rr1.jpg", "bilder/rr2.jpg", "bilder/rr3.jpg", "bilder/rr4.jpg", "bilder/rr5.jpg"] },
+    { src: "bilder/hochzeit1.jpg", alt: "Hochzeitsfotografie", images: ["bilder/hochzeit1.jpg", "bilder/hochzeit2.jpg", "bilder/hochzeit3.jpg"] },
+    { src: "bilder/tiere1.jpg", alt: "Haustiere", images: ["bilder/tiere1.jpg", "bilder/tiere2.jpg", "bilder/tiere3.jpg", "bilder/tiere4.jpg", "bilder/tiere5.jpg", "bilder/tiere6.jpg", "bilder/tiere7.jpg", "bilder/tiere8.jpg"] },
+    { src: "bilder/wildlife1.jpg", alt: "Wildlife", images: ["bilder/wildlife1.jpg", "bilder/wildlife2.jpg", "bilder/wildlife3.jpg", "bilder/wildlife4.jpg", "bilder/wildlife5.jpg", "bilder/wildlife6.jpg"] },
+    { src: "bilder/party1.jpg", alt: "Partyfotografie", images: ["bilder/party1.jpg", "bilder/party2.jpg", "bilder/party3.jpg"] }
+];
 
-    image.style.transform = 'scale(1.1)';
-    image.style.filter = 'brightness(0.7)';
-    overlayText.style.opacity = '1';
-}
+const portfolioGallery = document.getElementById("portfolio-gallery");
 
-function handleTouchEnd(event) {
-    const imageContainer = event.currentTarget;
-    const image = imageContainer.querySelector('img');
-    const overlayText = imageContainer.querySelector('.overlay-text');
-
-    image.style.transform = 'scale(1)';
-    image.style.filter = 'brightness(1)';
-    overlayText.style.opacity = '0';
-}
-
-// Touch-Events zu allen Bildcontainern hinzufügen
-const imageContainers = document.querySelectorAll('.image-container');
-imageContainers.forEach(container => {
-    container.addEventListener('touchstart', handleTouchStart);
-    container.addEventListener('touchend', handleTouchEnd);
+portfolioData.forEach(item => {
+    const container = document.createElement("div");
+    container.className = "image-container";
+    container.innerHTML = `
+        <img src="${item.src}" alt="${item.alt}" loading="lazy">
+        <div class="overlay-text">${item.alt}</div>
+    `;
+    container.addEventListener("click", () => openLightbox(item.src, item.images));
+    portfolioGallery.appendChild(container);
 });
 
 // Lightbox-Funktionen
 let currentIndex = 0;
 let images = [];
-let touchStartX = 0; // Startposition des Wischens (horizontal)
-let touchStartY = 0; // Startposition des Wischens (vertikal)
-let touchEndX = 0; // Endposition des Wischens (horizontal)
-let touchEndY = 0; // Endposition des Wischens (vertikal)
 
-// Lightbox öffnen
 function openLightbox(imageSrc, imageList) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
     lightboxImg.src = imageSrc;
-    lightbox.classList.add('active');
-
-    // Bilderliste speichern
+    lightbox.classList.add("active");
     images = imageList;
     currentIndex = images.indexOf(imageSrc);
-
-    // Scrollen verhindern
-    document.body.style.overflow = 'hidden';
-
-    // Touch-Events für Wischen hinzufügen
-    lightbox.addEventListener('touchstart', handleTouchStart, { passive: false });
-    lightbox.addEventListener('touchend', handleTouchEnd, { passive: false });
+    document.body.style.overflow = "hidden";
 }
 
-// Lightbox schließen
 function closeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    lightbox.classList.remove('active');
-
-    // Scrollen wieder erlauben
-    document.body.style.overflow = 'auto';
-
-    // Touch-Events entfernen
-    lightbox.removeEventListener('touchstart', handleTouchStart);
-    lightbox.removeEventListener('touchend', handleTouchEnd);
+    const lightbox = document.getElementById("lightbox");
+    lightbox.classList.remove("active");
+    document.body.style.overflow = "auto";
 }
 
-// Bildwechsel
 function changeImage(n) {
-    currentIndex += n;
-
-    // Zyklisches Durchlaufen der Bilder
-    if (currentIndex >= images.length) currentIndex = 0;
-    if (currentIndex < 0) currentIndex = images.length - 1;
-
-    const lightboxImg = document.getElementById('lightbox-img');
+    currentIndex = (currentIndex + n + images.length) % images.length;
+    const lightboxImg = document.getElementById("lightbox-img");
     lightboxImg.src = images[currentIndex];
 }
 
-// Touch-Event-Handler
-function handleTouchStart(event) {
-    touchStartX = event.touches[0].clientX; // Startposition des Wischens (horizontal)
-    touchStartY = event.touches[0].clientY; // Startposition des Wischens (vertikal)
-}
-
-function handleTouchEnd(event) {
-    touchEndX = event.changedTouches[0].clientX; // Endposition des Wischens (horizontal)
-    touchEndY = event.changedTouches[0].clientY; // Endposition des Wischens (vertikal)
-    handleSwipe();
-}
-
-// Wischlogik
-function handleSwipe() {
-    const deltaX = touchEndX - touchStartX; // Differenz zwischen Start- und Endposition (horizontal)
-    const deltaY = touchEndY - touchStartY; // Differenz zwischen Start- und Endposition (vertikal)
-
-    // Wenn der Wisch weit genug ist (z. B. mehr als 50 Pixel), Aktion ausführen
-    if (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50) {
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            // Horizontaler Wisch
-            if (deltaX > 0) {
-                changeImage(-1); // Nach rechts wischen -> Vorheriges Bild
-            } else {
-                changeImage(1); // Nach links wischen -> Nächstes Bild
-            }
-        } else {
-            // Vertikaler Wisch
-            closeLightbox(); // Lightbox schließen
-        }
-    }
-}
-
-// Tastatursteuerung (optional, bleibt unverändert)
-document.addEventListener('keydown', (event) => {
-    const lightbox = document.getElementById('lightbox');
-    if (lightbox.classList.contains('active')) {
-        if (event.key === 'ArrowRight') changeImage(1); // Nächstes Bild
-        if (event.key === 'ArrowLeft') changeImage(-1); // Vorheriges Bild
-        if (event.key === 'Escape') closeLightbox(); // Lightbox schließen
+// Tastatursteuerung
+document.addEventListener("keydown", (event) => {
+    const lightbox = document.getElementById("lightbox");
+    if (lightbox.classList.contains("active")) {
+        if (event.key === "ArrowRight") changeImage(1);
+        if (event.key === "ArrowLeft") changeImage(-1);
+        if (event.key === "Escape") closeLightbox();
     }
 });
 
 // Kopieren in die Zwischenablage
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
-        alert('Kopiert: ' + text);
+        alert("Kopiert: " + text);
     }).catch(() => {
-        alert('Kopieren fehlgeschlagen. Bitte manuell kopieren: ' + text);
+        alert("Kopieren fehlgeschlagen. Bitte manuell kopieren: " + text);
     });
 }
 
