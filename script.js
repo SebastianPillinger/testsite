@@ -54,82 +54,102 @@ portfolioData.forEach(item => {
 // Lightbox-Funktionen
 let currentIndex = 0;
 let images = [];
+const slides = document.querySelector('.slides');
+const lightbox = document.getElementById('lightbox');
+
+// Überprüfen, ob das Gerät Touch-Events unterstützt (mobil)
+const isMobile = 'ontouchstart' in window;
 
 function openLightbox(imageSrc, imageList) {
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    lightboxImg.src = imageSrc;
-    lightbox.classList.add("active");
     images = imageList;
     currentIndex = images.indexOf(imageSrc);
-    document.body.style.overflow = "hidden";
+
+    // Leere die Slideshow und füge die Bilder dynamisch hinzu
+    slides.innerHTML = '';
+    images.forEach((src, index) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Bild ${index + 1}`;
+        slides.appendChild(img);
+    });
+
+    // Zeige die Lightbox und das aktuelle Bild
+    lightbox.classList.add('active');
+    showSlide(currentIndex);
+    document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
-    const lightbox = document.getElementById("lightbox");
-    lightbox.classList.remove("active");
-    document.body.style.overflow = "auto";
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
 }
 
-function changeImage(n) {
-    currentIndex = (currentIndex + n + images.length) % images.length;
-    const lightboxImg = document.getElementById("lightbox-img");
-    lightboxImg.src = images[currentIndex];
+function showSlide(index) {
+    if (index >= images.length) {
+        currentIndex = 0; // Zurück zum ersten Bild, wenn Ende erreicht
+    } else if (index < 0) {
+        currentIndex = images.length - 1; // Zum letzten Bild, wenn Anfang erreicht
+    } else {
+        currentIndex = index;
+    }
+
+    // Berechne den Versatz basierend auf dem aktuellen Index
+    const offset = -currentIndex * 100;
+    slides.style.transform = `translateX(${offset}%)`;
+
+    // Deaktiviere die Animation auf dem PC
+    if (!isMobile) {
+        slides.style.transition = 'none'; // Keine Animation auf dem PC
+    } else {
+        slides.style.transition = 'transform 0.5s ease-in-out'; // Animation auf mobilen Geräten
+    }
 }
 
-// Tastatursteuerung
-document.addEventListener("keydown", (event) => {
-    const lightbox = document.getElementById("lightbox");
-    if (lightbox.classList.contains("active")) {
-        if (event.key === "ArrowRight") changeImage(1);
-        if (event.key === "ArrowLeft") changeImage(-1);
-        if (event.key === "Escape") closeLightbox();
+function nextSlide() {
+    showSlide(currentIndex + 1);
+}
+
+function prevSlide() {
+    showSlide(currentIndex - 1);
+}
+
+// Tastatursteuerung (für PC)
+document.addEventListener('keydown', (event) => {
+    if (lightbox.classList.contains('active')) {
+        if (event.key === 'ArrowRight') nextSlide();
+        if (event.key === 'ArrowLeft') prevSlide();
+        if (event.key === 'Escape') closeLightbox();
     }
 });
 
-// Touch-Events für Wischfunktion
+// Touch-Events für Wischfunktion (nur für mobile Geräte)
 let touchStartX = 0;
 let touchEndX = 0;
-let isSwiping = false;
 
 function handleTouchStart(event) {
     touchStartX = event.touches[0].clientX; // Speichert die Startposition des Wischens
-    isSwiping = true;
-}
-
-function handleTouchMove(event) {
-    if (!isSwiping) return;
-
-    const lightboxImg = document.getElementById("lightbox-img");
-    const deltaX = event.touches[0].clientX - touchStartX; // Berechnet die horizontale Bewegung
-
-    // Bewegt das Bild während des Wischens
-    lightboxImg.style.transform = `translateX(${deltaX}px)`;
 }
 
 function handleTouchEnd(event) {
-    if (!isSwiping) return;
-
     touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
-    const deltaX = touchEndX - touchStartX; // Berechnet die horizontale Bewegung
-    const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
-
-    if (deltaX < -swipeThreshold) {
-        changeImage(1); // Wischen nach links (nächstes Bild)
-    } else if (deltaX > swipeThreshold) {
-        changeImage(-1); // Wischen nach rechts (vorheriges Bild)
-    }
-
-    // Setzt die Position des Bildes zurück
-    const lightboxImg = document.getElementById("lightbox-img");
-    lightboxImg.style.transform = "translateX(0)";
-    isSwiping = false;
+    handleSwipe(); // Verarbeitet die Wischbewegung
 }
 
-const lightbox = document.getElementById('lightbox');
-lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
-lightbox.addEventListener('touchmove', handleTouchMove, { passive: true });
-lightbox.addEventListener('touchend', handleTouchEnd, { passive: true });
+function handleSwipe() {
+    const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
+
+    if (touchEndX < touchStartX - swipeThreshold) {
+        nextSlide(); // Wischen nach links (nächstes Bild)
+    } else if (touchEndX > touchStartX + swipeThreshold) {
+        prevSlide(); // Wischen nach rechts (vorheriges Bild)
+    }
+}
+
+// Wischfunktion nur für mobile Geräte aktivieren
+if (isMobile) {
+    lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
+    lightbox.addEventListener('touchend', handleTouchEnd, { passive: true });
+}
 
 // Kopieren in die Zwischenablage
 function copyToClipboard(text) {
