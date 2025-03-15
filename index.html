@@ -31,7 +31,7 @@
     </nav>
     
     <header>
-        <h1>Sebastian Pillinger Fotografie</h1>
+        <h1>Sebastian Pillinger - Fotografie</h1>
     </header>
     
     <!-- Über mich -->
@@ -56,12 +56,6 @@
             <!-- Bilder werden dynamisch geladen -->
         </div>
     </section>
-	
-	<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-		<span class="lightbox-arrow left" onclick="event.stopPropagation(); changeImage(-1)">&#10094;</span>
-		<img src="" alt="Vergrößertes Bild" id="lightbox-img">
-		<span class="lightbox-arrow right" onclick="event.stopPropagation(); changeImage(1)">&#10095;</span>
-	</div>
     
     <!-- Leistungen -->
     <section id="services">
@@ -111,9 +105,13 @@
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <span class="lightbox-arrow left" onclick="event.stopPropagation(); changeImage(-1)">&#10094;</span>
-        <img src="" alt="Vergrößertes Bild" id="lightbox-img">
-        <span class="lightbox-arrow right" onclick="event.stopPropagation(); changeImage(1)">&#10095;</span>
+        <div class="slideshow-container">
+            <div class="slides">
+                <!-- Bilder werden dynamisch geladen -->
+            </div>
+            <button class="prev" onclick="prevSlide()">&#10094;</button>
+            <button class="next" onclick="nextSlide()">&#10095;</button>
+        </div>
     </div>
     
     <script src="script.js"></script>
