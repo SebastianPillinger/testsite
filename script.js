@@ -72,6 +72,7 @@ const momentumThreshold = 100; // Schwung, um das Bild zu wechseln
 
 // Lightbox öffnen
 function openLightbox(imageSrc, imageList) {
+    console.log('Lightbox öffnen:', imageSrc); // Debugging
     const lightbox = document.getElementById('lightbox');
     const lightboxImgCurrent = document.getElementById('lightbox-img-current');
     const lightboxImgNext = document.getElementById('lightbox-img-next');
@@ -187,7 +188,9 @@ function handleSwipe() {
 // Lightbox-Öffnungsfunktion für Portfolio-Bilder
 document.querySelectorAll('.portfolio-gallery img').forEach((img, index) => {
     img.addEventListener('click', () => {
+        console.log('Bild geklickt:', img.src); // Debugging
         const imageList = Array.from(document.querySelectorAll('.portfolio-gallery img')).map(img => img.src);
+        console.log('Bildliste:', imageList); // Debugging
         openLightbox(img.src, imageList);
     });
 });
