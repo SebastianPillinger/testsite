@@ -66,6 +66,14 @@ function openLightbox(imageSrc, imageList) {
 
     // Leere die Slideshow und füge die Bilder dynamisch hinzu
     slides.innerHTML = '';
+
+    // Füge das letzte Bild am Anfang hinzu (für den Übergang)
+    const firstClone = document.createElement('img');
+    firstClone.src = images[images.length - 1];
+    firstClone.alt = `Bild ${images.length}`;
+    slides.appendChild(firstClone);
+
+    // Füge die originalen Bilder hinzu
     images.forEach((src, index) => {
         const img = document.createElement('img');
         img.src = src;
@@ -73,9 +81,15 @@ function openLightbox(imageSrc, imageList) {
         slides.appendChild(img);
     });
 
+    // Füge das erste Bild am Ende hinzu (für den Übergang)
+    const lastClone = document.createElement('img');
+    lastClone.src = images[0];
+    lastClone.alt = `Bild 1`;
+    slides.appendChild(lastClone);
+
     // Zeige die Lightbox und das aktuelle Bild
     lightbox.classList.add('active');
-    showSlide(currentIndex);
+    showSlide(currentIndex + 1); // +1, weil das erste Bild ein Klon ist
     document.body.style.overflow = 'hidden';
 }
 
@@ -88,21 +102,30 @@ function showSlide(index) {
     // Wenn der Index größer als die Anzahl der Bilder ist, springe zum ersten Bild
     if (index >= images.length) {
         currentIndex = 0;
+        slides.style.transition = 'none'; // Keine Animation für den Übergang
+        slides.style.transform = `translateX(-100%)`; // Springe zum ersten Bild
+        setTimeout(() => {
+            slides.style.transition = 'transform 0.5s ease-in-out'; // Animation wieder aktivieren
+            showSlide(currentIndex + 1); // Zeige das erste Bild mit Animation
+        }, 0);
     } 
     // Wenn der Index kleiner als 0 ist, springe zum letzten Bild
     else if (index < 0) {
         currentIndex = images.length - 1;
+        slides.style.transition = 'none'; // Keine Animation für den Übergang
+        slides.style.transform = `translateX(-${(images.length + 1) * 100}%)`; // Springe zum letzten Bild
+        setTimeout(() => {
+            slides.style.transition = 'transform 0.5s ease-in-out'; // Animation wieder aktivieren
+            showSlide(currentIndex + 1); // Zeige das letzte Bild mit Animation
+        }, 0);
     } 
     // Ansonsten setze den aktuellen Index
     else {
         currentIndex = index;
+        const offset = -(currentIndex + 1) * 100; // +1, weil das erste Bild ein Klon ist
+        slides.style.transform = `translateX(${offset}%)`;
     }
-
-    // Berechne den Versatz basierend auf dem aktuellen Index
-    const offset = -currentIndex * 100;
-    slides.style.transform = `translateX(${offset}%)`;
-
-    // Deaktiviere die Animation auf dem PC
+	// Deaktiviere die Animation auf dem PC
     if (!isMobile) {
         slides.style.transition = 'none'; // Keine Animation auf dem PC
     } else {
