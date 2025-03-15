@@ -266,7 +266,29 @@ h2 {
     max-height: 90%;
     border-radius: 5px;
     transition: transform 0.3s ease; /* Sanfte Animation für die Verschiebung */
-    transform: translateX(0); /* Standardposition */
+    position: absolute; /* Beide Bilder überlappen */
+}
+
+#lightbox-img-current {
+    transform: translateX(0);
+}
+
+#lightbox-img-next {
+    transform: translateX(100%);
+}
+
+/* Portfolio-Bilder */
+.portfolio-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.portfolio-gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .lightbox.active img {
