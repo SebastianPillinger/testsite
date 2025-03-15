@@ -86,6 +86,7 @@ function changeImage(n) {
 
     const lightboxImg = document.getElementById('lightbox-img');
     lightboxImg.src = images[currentIndex];
+    lightboxImg.style.transform = 'translateX(0)'; // Bild zurück zur Mitte setzen
 }
 
 // Touch-Event-Handler
@@ -135,11 +136,11 @@ function handleSwipe() {
                 changeImage(1); // Nach links wischen -> Nächstes Bild
             }
         }
+    } else {
+        // Bild zurück zur Mitte setzen, wenn der Wisch nicht ausreicht
+        const lightboxImg = document.getElementById('lightbox-img');
+        lightboxImg.style.transform = 'translateX(0)';
     }
-
-    // Bild zurück zur Mitte setzen
-    const lightboxImg = document.getElementById('lightbox-img');
-    lightboxImg.style.transform = 'translateX(0)';
 }
 
 // Tastatursteuerung
