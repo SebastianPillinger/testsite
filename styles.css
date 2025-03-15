@@ -265,8 +265,18 @@ h2 {
     max-width: 90%;
     max-height: 90%;
     border-radius: 5px;
-    transform: scale(0.8);
-    transition: transform 0.3s ease;
+    transition: transform 0.5s ease, opacity 0.5s ease; /* Animation für Bewegung und Überblendung */
+}
+
+/* Klassen für die Animation */
+.lightbox img.slide-left {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.lightbox img.slide-right {
+    transform: translateX(100%);
+    opacity: 0;
 }
 
 .lightbox.active img {
