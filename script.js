@@ -72,42 +72,45 @@ function handleTouchStart(event) {
 
 function handleTouchMove(event) {
     if (!isSwiping) return;
-    
-    const touchCurrentX = event.touches[0].clientX;
+
+    const touchCurrentY = event.touches[0].clientY;
+    const deltaY = touchCurrentY - touchStartY;
+
+    if (Math.abs(deltaY) > 50) {
+        closeLightbox();
+        return;
+    }
+
+    touchCurrentX = event.touches[0].clientX;
     const deltaX = touchCurrentX - touchStartX;
-    const lightboxImg = document.getElementById('lightbox-img');
-    
-    // Bewegung und Transparenz
-    const maxOffset = 100;
-    const opacity = 1 - Math.abs(deltaX)/200;
-    
-    lightboxImg.style.transform = `translateX(${deltaX}px)`;
-    lightboxImg.style.opacity = opacity;
-    
-    event.preventDefault();
+    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
+    slides.style.transform = `translateX(${offset}%)`;
 }
 
 function handleTouchEnd(event) {
     if (!isSwiping) return;
 
+    touchEndX = event.changedTouches[0].clientX;
+    touchEndY = event.changedTouches[0].clientY;
     const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
     const swipeThreshold = 50;
-    const lightboxImg = document.getElementById('lightbox-img');
 
-    // Zurücksetzen der Transformation
-    lightboxImg.style.transform = 'translateX(0)';
-    
-    // Nur bei ausreichendem Swipe wechseln
     if (Math.abs(deltaX) > swipeThreshold) {
-        if (deltaX < 0) changeImage(1);
-        else changeImage(-1);
+        if (deltaX < 0) {
+            changeImage(1);
+        } else {
+            changeImage(-1);
+        }
     }
 
+    if (Math.abs(deltaY) > swipeThreshold) {
+        closeLightbox();
+    }
+
+    const lightboxImg = document.getElementById("lightbox-img");
+    lightboxImg.style.transform = "translateX(0)";
     isSwiping = false;
-	
-	lightboxImg.style.transform = 'translateX(0)';
-    lightboxImg.style.opacity = 1;
-    lightboxImg.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
 }
 
 const lightbox = document.getElementById('lightbox');
