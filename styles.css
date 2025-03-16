@@ -244,6 +244,8 @@ h2 {
     cursor: pointer;
     user-select: none;
     padding: 10px 20px;
+	-webkit-tap-highlight-color: transparent; /* Entfernt den Tap-Highlight-Effekt */
+    tap-highlight-color: transparent; /* Für andere Browser */
     z-index: 1001;
 }
 
