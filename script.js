@@ -64,11 +64,6 @@ function openLightbox(imageSrc, imageList) {
 
     slides.innerHTML = '';
 
-    const firstClone = document.createElement('img');
-    firstClone.src = images[images.length - 1];
-    firstClone.alt = `Bild ${images.length}`;
-    slides.appendChild(firstClone);
-
     images.forEach((src, index) => {
         const img = document.createElement('img');
         img.src = src;
@@ -76,13 +71,8 @@ function openLightbox(imageSrc, imageList) {
         slides.appendChild(img);
     });
 
-    const lastClone = document.createElement('img');
-    lastClone.src = images[0];
-    lastClone.alt = `Bild 1`;
-    slides.appendChild(lastClone);
-
     lightbox.classList.add('active');
-    showSlide(currentIndex + 1);
+    showSlide(currentIndex);
     document.body.style.overflow = 'hidden';
 }
 
@@ -100,7 +90,7 @@ function showSlide(index) {
         currentIndex = index;
     }
 
-    const offset = -(currentIndex + 1) * 100;
+    const offset = -currentIndex * 100; // Hier wurde currentIndex + 1 durch currentIndex ersetzt
     slides.style.transform = `translateX(${offset}%)`;
 
     if (!isMobile) {
