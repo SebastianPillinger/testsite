@@ -31,7 +31,7 @@
     </nav>
     
     <header>
-        <h1>Sebastian Pillinger - Fotografie</h1>
+        <h1>Sebastian Pillinger Fotografie</h1>
     </header>
     
     <!-- Über mich -->
@@ -74,12 +74,16 @@
         <h2>Kundenfeedback</h2>
         <div class="testimonials">
             <div class="testimonial">
-                <p>"Sebastian hat unsere Hochzeit perfekt festgehalten. Die Fotos sind atemberaubend!"</p>
-                <cite>– Anna und Markus</cite>
+                <blockquote>
+                    <p>"Sebastian hat unsere Hochzeit perfekt festgehalten. Die Fotos sind atemberaubend!"</p>
+                    <cite>– Anna und Markus</cite>
+                </blockquote>
             </div>
             <div class="testimonial">
-                <p>"Professionelle Arbeit und eine Freude, mit ihm zusammenzuarbeiten."</p>
-                <cite>– Eventagentur Graz</cite>
+                <blockquote>
+                    <p>"Professionelle Arbeit und eine Freude, mit ihm zusammenzuarbeiten."</p>
+                    <cite>– Eventagentur Graz</cite>
+                </blockquote>
             </div>
         </div>
     </section>
@@ -104,13 +108,13 @@
     </footer>
 
     <!-- Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <div class="lightbox" id="lightbox">
         <div class="slideshow-container">
             <div class="slides">
                 <!-- Bilder werden dynamisch geladen -->
             </div>
-            <button class="prev" onclick="prevSlide()">&#10094;</button>
-            <button class="next" onclick="nextSlide()">&#10095;</button>
+            <button class="prev" aria-label="Vorheriges Bild">&#10094;</button>
+            <button class="next" aria-label="Nächstes Bild">&#10095;</button>
         </div>
     </div>
     
