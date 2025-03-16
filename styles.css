@@ -216,7 +216,7 @@ h2 {
     max-width: 90%;
     max-height: 90%;
     border-radius: 5px;
-    transition: transform 0.3s ease; /* Sanfte Bewegung beim Wischen */
+    transition: transform 0.3s ease;
 	z-index: 1000;
 }
 
@@ -257,7 +257,9 @@ h2 {
 
 @media (max-width: 768px) {
     .lightbox-arrow {
-        font-size: 2em; /* Kleinere Schriftgröße für mobile Geräte */
+        display: block !important;
+        font-size: 2.5em;
+        opacity: 0.8;
     }
 }
 
