@@ -4,7 +4,7 @@ const mainNav = document.getElementById('main-nav');
 
 // Menü ein- oder ausblenden
 hamburgerMenu.addEventListener('click', (event) => {
-    event.stopPropagation(); // Verhindert, dass der Klick an das Dokument weitergegeben wird
+    event.stopPropagation();
     mainNav.classList.toggle('active');
 });
 
@@ -15,7 +15,7 @@ document.addEventListener('click', (event) => {
         const isClickOnHamburger = hamburgerMenu.contains(event.target);
 
         if (!isClickInsideNav && !isClickOnHamburger) {
-            mainNav.classList.remove('active'); // Menü schließen
+            mainNav.classList.remove('active');
         }
     }
 });
@@ -24,7 +24,7 @@ document.addEventListener('click', (event) => {
 const navLinks = document.querySelectorAll('#main-nav a');
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
-        mainNav.classList.remove('active'); // Menü schließen
+        mainNav.classList.remove('active');
     });
 });
 
@@ -56,13 +56,11 @@ let currentIndex = 0;
 let images = [];
 const slides = document.querySelector('.slides');
 const lightbox = document.getElementById('lightbox');
-
-// Überprüfen, ob das Gerät Touch-Events unterstützt (mobil)
 const isMobile = 'ontouchstart' in window;
 
 function openLightbox(imageSrc, imageList) {
     images = imageList;
-    currentIndex = 0; // Immer das erste Bild anzeigen
+    currentIndex = 0;
 
     slides.innerHTML = '';
 
@@ -123,7 +121,7 @@ function prevSlide() {
 document.querySelector('.prev').addEventListener('click', prevSlide);
 document.querySelector('.next').addEventListener('click', nextSlide);
 
-// Tastatursteuerung (für PC)
+// Tastatursteuerung
 document.addEventListener('keydown', (event) => {
     if (lightbox.classList.contains('active')) {
         if (event.key === 'ArrowRight') nextSlide();
@@ -132,50 +130,11 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Touch-Events für Wischfunktion (nur für mobile Geräte)
+// Touch-Events für Wischfunktion
 let touchStartX = 0;
+let touchStartY = 0;
 let touchCurrentX = 0;
 let isSwiping = false;
-
-function handleTouchStart(event) {
-    touchStartX = event.touches[0].clientX;
-    touchCurrentX = touchStartX;
-    isSwiping = true;
-    slides.style.transition = 'none';
-}
-
-function handleTouchMove(event) {
-    if (!isSwiping) return;
-
-    touchCurrentX = event.touches[0].clientX;
-    const deltaX = touchCurrentX - touchStartX;
-    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
-    slides.style.transform = `translateX(${offset}%)`;
-}
-
-function handleTouchEnd() {
-    if (!isSwiping) return;
-
-    isSwiping = false;
-    slides.style.transition = 'transform 0.3s ease-in-out'; // Verkürzte Übergangszeit für ein smoother Gefühl
-
-    const deltaX = touchCurrentX - touchStartX;
-    const swipeThreshold = window.innerWidth * 0.1; // Reduzierte Schwelle für schnelleres Wischen
-
-    if (deltaX < -swipeThreshold) {
-        nextSlide();
-    } else if (deltaX > swipeThreshold) {
-        prevSlide();
-    } else {
-        showSlide(currentIndex);
-    }
-}
-
-slides.addEventListener('touchstart', handleTouchStart, { passive: true });
-slides.addEventListener('touchmove', handleTouchMove, { passive: true });
-slides.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-let touchStartY = 0;
 
 function handleTouchStart(event) {
     touchStartX = event.touches[0].clientX;
@@ -191,7 +150,7 @@ function handleTouchMove(event) {
     const touchCurrentY = event.touches[0].clientY;
     const deltaY = touchCurrentY - touchStartY;
 
-    if (Math.abs(deltaY) > 50) { // Schwellenwert für vertikales Wischen
+    if (Math.abs(deltaY) > 50) {
         closeLightbox();
         return;
     }
@@ -200,6 +159,24 @@ function handleTouchMove(event) {
     const deltaX = touchCurrentX - touchStartX;
     const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
     slides.style.transform = `translateX(${offset}%)`;
+}
+
+function handleTouchEnd() {
+    if (!isSwiping) return;
+
+    isSwiping = false;
+    slides.style.transition = 'transform 0.3s ease-in-out';
+
+    const deltaX = touchCurrentX - touchStartX;
+    const swipeThreshold = window.innerWidth * 0.1;
+
+    if (deltaX < -swipeThreshold) {
+        nextSlide();
+    } else if (deltaX > swipeThreshold) {
+        prevSlide();
+    } else {
+        showSlide(currentIndex);
+    }
 }
 
 slides.addEventListener('touchstart', handleTouchStart, { passive: true });
@@ -218,14 +195,14 @@ function copyToClipboard(text) {
 // Smooth Scroll für interne Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault(); // Verhindert das Standardverhalten
-        const targetId = this.getAttribute('href').substring(1); // Holt die Ziel-ID
-        const targetElement = document.getElementById(targetId); // Findet das Ziel-Element
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
 
         if (targetElement) {
             targetElement.scrollIntoView({
-                behavior: 'smooth', // Sanftes Scrollen
-                block: 'start' // Scrollt zum Anfang des Abschnitts
+                behavior: 'smooth',
+                block: 'start'
             });
         }
     });
