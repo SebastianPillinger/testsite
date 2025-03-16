@@ -362,7 +362,9 @@ footer a:hover {
     .about-image img { width: 100%; max-width: 300px; }
     .portfolio-section { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
     h2 { font-size: 2em; }
+}
 
+@media (max-width: 768px) {
     .overlay-text {
         opacity: 1; /* Text standardmäßig sichtbar */
         font-size: 1.5em; /* Kleinere Schriftgröße für Mobilgeräte */
