@@ -72,44 +72,38 @@ function handleTouchStart(event) {
 
 function handleTouchMove(event) {
     if (!isSwiping) return;
-
-    const touchCurrentY = event.touches[0].clientY;
-    const deltaY = touchCurrentY - touchStartY;
-
-    if (Math.abs(deltaY) > 50) {
-        closeLightbox();
-        return;
-    }
-
-    touchCurrentX = event.touches[0].clientX;
+    
+    const touchCurrentX = event.touches[0].clientX;
     const deltaX = touchCurrentX - touchStartX;
-    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
-    slides.style.transform = `translateX(${offset}%)`;
+    const lightboxImg = document.getElementById('lightbox-img');
+    
+    // Begrenze die Bewegungsreichweite
+    const maxDelta = 100;
+    const offset = Math.min(Math.max(deltaX, -maxDelta), maxDelta);
+    
+    // Bewege das Bild mit dem Finger
+    lightboxImg.style.transform = `translateX(${offset}px)`;
+    
+    // Verhindere Scrollen der Seite
+    event.preventDefault();
 }
 
 function handleTouchEnd(event) {
     if (!isSwiping) return;
 
-    touchEndX = event.changedTouches[0].clientX;
-    touchEndY = event.changedTouches[0].clientY;
     const deltaX = touchEndX - touchStartX;
-    const deltaY = touchEndY - touchStartY;
     const swipeThreshold = 50;
+    const lightboxImg = document.getElementById('lightbox-img');
 
+    // Zurücksetzen der Transformation
+    lightboxImg.style.transform = 'translateX(0)';
+    
+    // Nur bei ausreichendem Swipe wechseln
     if (Math.abs(deltaX) > swipeThreshold) {
-        if (deltaX < 0) {
-            changeImage(1);
-        } else {
-            changeImage(-1);
-        }
+        if (deltaX < 0) changeImage(1);
+        else changeImage(-1);
     }
 
-    if (Math.abs(deltaY) > swipeThreshold) {
-        closeLightbox();
-    }
-
-    const lightboxImg = document.getElementById("lightbox-img");
-    lightboxImg.style.transform = "translateX(0)";
     isSwiping = false;
 }
 
