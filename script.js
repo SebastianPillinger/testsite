@@ -62,18 +62,15 @@ const isMobile = 'ontouchstart' in window;
 
 function openLightbox(imageSrc, imageList) {
     images = imageList;
-    currentIndex = images.indexOf(imageSrc);
+    currentIndex = 0; // Immer das erste Bild anzeigen
 
-    // Leere die Slideshow und füge die Bilder dynamisch hinzu
     slides.innerHTML = '';
 
-    // Füge das letzte Bild am Anfang hinzu (für den Übergang)
     const firstClone = document.createElement('img');
     firstClone.src = images[images.length - 1];
     firstClone.alt = `Bild ${images.length}`;
     slides.appendChild(firstClone);
 
-    // Füge die originalen Bilder hinzu
     images.forEach((src, index) => {
         const img = document.createElement('img');
         img.src = src;
@@ -81,15 +78,13 @@ function openLightbox(imageSrc, imageList) {
         slides.appendChild(img);
     });
 
-    // Füge das erste Bild am Ende hinzu (für den Übergang)
     const lastClone = document.createElement('img');
     lastClone.src = images[0];
     lastClone.alt = `Bild 1`;
     slides.appendChild(lastClone);
 
-    // Zeige die Lightbox und das aktuelle Bild
     lightbox.classList.add('active');
-    showSlide(currentIndex + 1); // +1, weil das erste Bild ein Klon ist
+    showSlide(currentIndex + 1);
     document.body.style.overflow = 'hidden';
 }
 
@@ -107,14 +102,13 @@ function showSlide(index) {
         currentIndex = index;
     }
 
-    const offset = -(currentIndex + 1) * 100; // +1, weil das erste Bild ein Klon ist
+    const offset = -(currentIndex + 1) * 100;
     slides.style.transform = `translateX(${offset}%)`;
 
-    // Deaktiviere die Animation auf dem PC
     if (!isMobile) {
-        slides.style.transition = 'none'; // Keine Animation auf dem PC
+        slides.style.transition = 'none';
     } else {
-        slides.style.transition = 'transform 0.5s ease-in-out'; // Animation auf mobilen Geräten
+        slides.style.transition = 'transform 0.5s ease-in-out';
     }
 }
 
@@ -125,6 +119,9 @@ function nextSlide() {
 function prevSlide() {
     showSlide(currentIndex - 1);
 }
+
+document.querySelector('.prev').addEventListener('click', prevSlide);
+document.querySelector('.next').addEventListener('click', nextSlide);
 
 // Tastatursteuerung (für PC)
 document.addEventListener('keydown', (event) => {
@@ -140,44 +137,71 @@ let touchStartX = 0;
 let touchCurrentX = 0;
 let isSwiping = false;
 
-// Touch-Start: Speichere die Startposition
 function handleTouchStart(event) {
     touchStartX = event.touches[0].clientX;
     touchCurrentX = touchStartX;
     isSwiping = true;
-    slides.style.transition = 'none'; // Deaktiviere die Animation während des Wischens
+    slides.style.transition = 'none';
 }
 
-// Touch-Move: Bewege die Slideshow basierend auf der Fingerbewegung
 function handleTouchMove(event) {
     if (!isSwiping) return;
 
     touchCurrentX = event.touches[0].clientX;
-    const deltaX = touchCurrentX - touchStartX; // Berechne die Differenz
-    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100; // Verschiebe die Slideshow
+    const deltaX = touchCurrentX - touchStartX;
+    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
     slides.style.transform = `translateX(${offset}%)`;
 }
 
-// Touch-End: Beende den Swipe und zeige das nächste/vorherige Bild
 function handleTouchEnd() {
     if (!isSwiping) return;
 
     isSwiping = false;
-    slides.style.transition = 'transform 0.5s ease-in-out'; // Aktiviere die Animation wieder
+    slides.style.transition = 'transform 0.3s ease-in-out'; // Verkürzte Übergangszeit für ein smoother Gefühl
 
     const deltaX = touchCurrentX - touchStartX;
-    const swipeThreshold = window.innerWidth * 0.2; // Mindestlänge des Wischens (20% der Bildschirmbreite)
+    const swipeThreshold = window.innerWidth * 0.1; // Reduzierte Schwelle für schnelleres Wischen
 
     if (deltaX < -swipeThreshold) {
-        nextSlide(); // Wischen nach links (nächstes Bild)
+        nextSlide();
     } else if (deltaX > swipeThreshold) {
-        prevSlide(); // Wischen nach rechts (vorheriges Bild)
+        prevSlide();
     } else {
-        showSlide(currentIndex); // Kein Swipe: Zeige das aktuelle Bild
+        showSlide(currentIndex);
     }
 }
 
-// Event-Listener hinzufügen
+slides.addEventListener('touchstart', handleTouchStart, { passive: true });
+slides.addEventListener('touchmove', handleTouchMove, { passive: true });
+slides.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+let touchStartY = 0;
+
+function handleTouchStart(event) {
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+    touchCurrentX = touchStartX;
+    isSwiping = true;
+    slides.style.transition = 'none';
+}
+
+function handleTouchMove(event) {
+    if (!isSwiping) return;
+
+    const touchCurrentY = event.touches[0].clientY;
+    const deltaY = touchCurrentY - touchStartY;
+
+    if (Math.abs(deltaY) > 50) { // Schwellenwert für vertikales Wischen
+        closeLightbox();
+        return;
+    }
+
+    touchCurrentX = event.touches[0].clientX;
+    const deltaX = touchCurrentX - touchStartX;
+    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
+    slides.style.transform = `translateX(${offset}%)`;
+}
+
 slides.addEventListener('touchstart', handleTouchStart, { passive: true });
 slides.addEventListener('touchmove', handleTouchMove, { passive: true });
 slides.addEventListener('touchend', handleTouchEnd, { passive: true });
