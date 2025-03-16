@@ -216,9 +216,8 @@ h2 {
     max-width: 90%;
     max-height: 90%;
     border-radius: 5px;
-    transition: transform 0.3s ease;
-	position: relative;
-	z-index: 1001;
+    transition: transform 0.3s ease; /* Sanfte Bewegung beim Wischen */
+	z-index: 1000;
 }
 
 /* Klassen für die Animation */
@@ -245,8 +244,7 @@ h2 {
     cursor: pointer;
     user-select: none;
     padding: 10px 20px;
-	pointer-events: auto;
-    z-index: 1002;
+    z-index: 1001;
 }
 
 .lightbox-arrow.left {
@@ -259,31 +257,8 @@ h2 {
 
 @media (max-width: 768px) {
     .lightbox-arrow {
-        display: block !important;
-        font-size: 2.5em;
-        opacity: 0.8;
+        font-size: 2em; /* Kleinere Schriftgröße für mobile Geräte */
     }
-}
-
-/* Swipe-Hinweis Animation */
-@keyframes swipeHint {
-    0% { transform: translateX(-10px) }
-    50% { transform: translateX(10px) }
-    100% { transform: translateX(-10px) }
-}
-
-.lightbox::after {
-    content: "← →";
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 2em;
-    opacity: 0.5;
-    animation: swipeHint 2s infinite;
-    pointer-events: none;
-    z-index: 1003;
 }
 
 /* Kundenfeedback */
