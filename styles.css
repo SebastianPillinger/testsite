@@ -40,7 +40,7 @@ header {
 }
 
 header h1 {
-    font-size: 4.5em;
+    font-size: 3em;
     margin: 0;
     padding: 20px;
     animation: fadeIn 2s ease-in-out;
