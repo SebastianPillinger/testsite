@@ -90,28 +90,32 @@ document.addEventListener("keydown", (event) => {
 let touchStartX = 0;
 let touchEndX = 0;
 
+// Touch-Start-Event
 function handleTouchStart(event) {
-    touchStartX = event.touches[0].clientX;
+    touchStartX = event.touches[0].clientX; // Speichert die Startposition des Wischens
 }
 
+// Touch-End-Event
 function handleTouchEnd(event) {
-    touchEndX = event.changedTouches[0].clientX;
-    handleSwipe();
+    touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
+    handleSwipe(); // Verarbeitet die Wischbewegung
 }
 
+// Wischfunktion
 function handleSwipe() {
     const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
 
     if (touchEndX < touchStartX - swipeThreshold) {
-        changeImage(1); // Wischen nach links
+        changeImage(1); // Wischen nach links (nächstes Bild)
     } else if (touchEndX > touchStartX + swipeThreshold) {
-        changeImage(-1); // Wischen nach rechts
+        changeImage(-1); // Wischen nach rechts (vorheriges Bild)
     }
 }
 
+// Touch-Events zur Lightbox hinzufügen
 const lightbox = document.getElementById('lightbox');
-lightbox.addEventListener('touchstart', handleTouchStart, false);
-lightbox.addEventListener('touchend', handleTouchEnd, false);
+lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
+lightbox.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 // Kopieren in die Zwischenablage
 function copyToClipboard(text) {
