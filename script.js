@@ -87,34 +87,48 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+// Touch-Events für Wischfunktion
 let touchStartX = 0;
 let touchEndX = 0;
+let isSwiping = false;
 
-// Touch-Start-Event
 function handleTouchStart(event) {
     touchStartX = event.touches[0].clientX; // Speichert die Startposition des Wischens
+    isSwiping = true;
 }
 
-// Touch-End-Event
+function handleTouchMove(event) {
+    if (!isSwiping) return;
+
+    const lightboxImg = document.getElementById("lightbox-img");
+    const deltaX = event.touches[0].clientX - touchStartX; // Berechnet die horizontale Bewegung
+
+    // Bewegt das Bild während des Wischens
+    lightboxImg.style.transform = `translateX(${deltaX}px)`;
+}
+
 function handleTouchEnd(event) {
-    touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
-    handleSwipe(); // Verarbeitet die Wischbewegung
-}
+    if (!isSwiping) return;
 
-// Wischfunktion
-function handleSwipe() {
+    touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
+    const deltaX = touchEndX - touchStartX; // Berechnet die horizontale Bewegung
     const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
 
-    if (touchEndX < touchStartX - swipeThreshold) {
+    if (deltaX < -swipeThreshold) {
         changeImage(1); // Wischen nach links (nächstes Bild)
-    } else if (touchEndX > touchStartX + swipeThreshold) {
+    } else if (deltaX > swipeThreshold) {
         changeImage(-1); // Wischen nach rechts (vorheriges Bild)
     }
+
+    // Setzt die Position des Bildes zurück
+    const lightboxImg = document.getElementById("lightbox-img");
+    lightboxImg.style.transform = "translateX(0)";
+    isSwiping = false;
 }
 
-// Touch-Events zur Lightbox hinzufügen
 const lightbox = document.getElementById('lightbox');
 lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
+lightbox.addEventListener('touchmove', handleTouchMove, { passive: true });
 lightbox.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 // Kopieren in die Zwischenablage
