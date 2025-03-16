@@ -221,7 +221,7 @@ h2 {
 /* Standardverhalten für Handys */
 @media (max-width: 768px) {
     .image-container img {
-        filter: brightness(0.7); /* Bild standardmäßig abgedunkelt */
+        filter: brightness(0.3); /* Bild standardmäßig abgedunkelt */
     }
 
     .overlay-text {
