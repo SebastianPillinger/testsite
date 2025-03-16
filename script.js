@@ -128,25 +128,21 @@ let touchStartX = 0;
 let touchStartY = 0;
 let touchCurrentX = 0;
 let isSwiping = false;
-const swipeThreshold = 50; // Schwellenwert für die Wisch-Erkennung (in Pixel)
 
-// Touch-Start
 function handleTouchStart(event) {
     touchStartX = event.touches[0].clientX;
     touchStartY = event.touches[0].clientY;
     touchCurrentX = touchStartX;
     isSwiping = true;
-    slides.style.transition = 'none'; // Übergang deaktivieren, während gewischt wird
+    slides.style.transition = 'none';
 }
 
-// Touch-Move
 function handleTouchMove(event) {
     if (!isSwiping) return;
 
     const touchCurrentY = event.touches[0].clientY;
     const deltaY = touchCurrentY - touchStartY;
 
-    // Wenn die vertikale Bewegung zu groß ist, schließen Sie die Lightbox
     if (Math.abs(deltaY) > 50) {
         closeLightbox();
         return;
@@ -154,34 +150,28 @@ function handleTouchMove(event) {
 
     touchCurrentX = event.touches[0].clientX;
     const deltaX = touchCurrentX - touchStartX;
-
-    // Bildposition während des Wischens aktualisieren
-    const offset = -(currentIndex * 100) + (deltaX / window.innerWidth) * 100;
+    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
     slides.style.transform = `translateX(${offset}%)`;
 }
 
-// Touch-End
 function handleTouchEnd() {
     if (!isSwiping) return;
 
     isSwiping = false;
-    slides.style.transition = 'transform 0.3s ease-in-out'; // Übergang wieder aktivieren
+    slides.style.transition = 'transform 0.3s ease-in-out';
 
     const deltaX = touchCurrentX - touchStartX;
-    const swipeThreshold = window.innerWidth * 0.1; // Schwellenwert für die Wisch-Erkennung (10% der Bildschirmbreite)
+    const swipeThreshold = window.innerWidth * 0.1;
 
-    // Wenn die Bewegung den Schwellenwert überschreitet, wechseln Sie das Bild
     if (deltaX < -swipeThreshold) {
         nextSlide();
     } else if (deltaX > swipeThreshold) {
         prevSlide();
     } else {
-        // Andernfalls kehren Sie zum aktuellen Bild zurück
         showSlide(currentIndex);
     }
 }
 
-// Event-Listener für Touch-Events
 slides.addEventListener('touchstart', handleTouchStart, { passive: true });
 slides.addEventListener('touchmove', handleTouchMove, { passive: true });
 slides.addEventListener('touchend', handleTouchEnd, { passive: true });
