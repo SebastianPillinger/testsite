@@ -365,14 +365,11 @@ footer a:hover {
 }
 
 @media (max-width: 768px) {
-    .overlay-text {
-        opacity: 1; /* Text standardmäßig sichtbar */
-        font-size: 1.5em; /* Kleinere Schriftgröße für Mobilgeräte */
+    .image-container img {
+        filter: brightness(0.7); /* Bild standardmäßig abgedunkelt */
     }
 
-    /* Optional: Bild nicht vergrößern beim Überfahren auf Mobilgeräten */
-    .image-container:hover img {
-        transform: none;
-        filter: brightness(1); /* Bild bleibt normal hell */
+    .overlay-text {
+        opacity: 1; /* Schrift standardmäßig sichtbar */
     }
 }
