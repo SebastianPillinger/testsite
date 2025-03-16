@@ -362,4 +362,15 @@ footer a:hover {
     .about-image img { width: 100%; max-width: 300px; }
     .portfolio-section { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
     h2 { font-size: 2em; }
+
+    .overlay-text {
+        opacity: 1; /* Text standardmäßig sichtbar */
+        font-size: 1.5em; /* Kleinere Schriftgröße für Mobilgeräte */
+    }
+
+    /* Optional: Bild nicht vergrößern beim Überfahren auf Mobilgeräten */
+    .image-container:hover img {
+        transform: none;
+        filter: brightness(1); /* Bild bleibt normal hell */
+    }
 }
