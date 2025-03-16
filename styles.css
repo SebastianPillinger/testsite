@@ -169,7 +169,7 @@ h2 {
 
 .image-container:hover img {
     transform: scale(1.1);
-    filter: brightness(0.3);
+    filter: brightness(0.5);
 }
 
 .overlay-text {
@@ -182,6 +182,10 @@ h2 {
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
+}
+
+.image-container:hover .overlay-text {
+    opacity: 1;
 }
 
 /* Lightbox */
