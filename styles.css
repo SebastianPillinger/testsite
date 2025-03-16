@@ -240,7 +240,6 @@ h2 {
     }
 }
 
-/* Lightbox */
 .lightbox {
     display: none;
     position: fixed;
@@ -254,6 +253,7 @@ h2 {
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s ease;
+    touch-action: none; /* Verhindert Standard-Touch-Verhalten wie Scrollen */
 }
 
 .lightbox.active {
