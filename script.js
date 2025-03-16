@@ -1,33 +1,3 @@
-// Hamburger-Menü und Navigation
-const hamburgerMenu = document.getElementById('hamburger-menu');
-const mainNav = document.getElementById('main-nav');
-
-// Menü ein- oder ausblenden
-hamburgerMenu.addEventListener('click', (event) => {
-    event.stopPropagation(); // Verhindert, dass der Klick an das Dokument weitergegeben wird
-    mainNav.classList.toggle('active');
-});
-
-// Menü schließen, wenn außerhalb geklickt wird
-document.addEventListener('click', (event) => {
-    if (mainNav.classList.contains('active')) {
-        const isClickInsideNav = mainNav.contains(event.target);
-        const isClickOnHamburger = hamburgerMenu.contains(event.target);
-
-        if (!isClickInsideNav && !isClickOnHamburger) {
-            mainNav.classList.remove('active'); // Menü schließen
-        }
-    }
-});
-
-// Menü schließen, wenn ein Link geklickt wird
-const navLinks = document.querySelectorAll('#main-nav a');
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        mainNav.classList.remove('active'); // Menü schließen
-    });
-});
-
 // Dynamisches Laden der Portfolio-Bilder
 const portfolioData = [
     { src: "bilder/linzm1.jpg", alt: "Linz-Marathon", images: ["bilder/linzm1.jpg", "bilder/linzm2.jpg", "bilder/linzm3.jpg"] },
