@@ -59,11 +59,14 @@ document.addEventListener("keydown", (event) => {
 
 // Touch-Events für Wischfunktion
 let touchStartX = 0;
+let touchStartY = 0;
 let touchEndX = 0;
+let touchEndY = 0;
 let isSwiping = false;
 
 function handleTouchStart(event) {
-    touchStartX = event.touches[0].clientX; // Speichert die Startposition des Wischens
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
     isSwiping = true;
 }
 
@@ -71,34 +74,46 @@ function handleTouchMove(event) {
     if (!isSwiping) return;
 
     const lightboxImg = document.getElementById("lightbox-img");
-    const deltaX = event.touches[0].clientX - touchStartX; // Berechnet die horizontale Bewegung
+    const deltaX = event.touches[0].clientX - touchStartX;
+    const deltaY = event.touches[0].clientY - touchStartY;
 
-    // Bewegt das Bild während des Wischens
     lightboxImg.style.transform = `translateX(${deltaX}px)`;
+
+    // Verhindert das Scrollen der Seite während des Swipes
+    if (Math.abs(deltaY) > 10) {
+        event.preventDefault();
+    }
 }
 
 function handleTouchEnd(event) {
     if (!isSwiping) return;
 
-    touchEndX = event.changedTouches[0].clientX; // Speichert die Endposition des Wischens
-    const deltaX = touchEndX - touchStartX; // Berechnet die horizontale Bewegung
-    const swipeThreshold = 50; // Mindestlänge des Wischens in Pixeln
+    touchEndX = event.changedTouches[0].clientX;
+    touchEndY = event.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    const swipeThreshold = 50;
 
-    if (deltaX < -swipeThreshold) {
-        changeImage(1); // Wischen nach links (nächstes Bild)
-    } else if (deltaX > swipeThreshold) {
-        changeImage(-1); // Wischen nach rechts (vorheriges Bild)
+    if (Math.abs(deltaX) > swipeThreshold) {
+        if (deltaX < 0) {
+            changeImage(1);
+        } else {
+            changeImage(-1);
+        }
     }
 
-    // Setzt die Position des Bildes zurück
+    if (Math.abs(deltaY) > swipeThreshold) {
+        closeLightbox();
+    }
+
     const lightboxImg = document.getElementById("lightbox-img");
     lightboxImg.style.transform = "translateX(0)";
     isSwiping = false;
 }
 
 const lightbox = document.getElementById('lightbox');
-lightbox.addEventListener('touchstart', handleTouchStart, { passive: true });
-lightbox.addEventListener('touchmove', handleTouchMove, { passive: true });
+lightbox.addEventListener('touchstart', handleTouchStart, { passive: false });
+lightbox.addEventListener('touchmove', handleTouchMove, { passive: false });
 lightbox.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 // Kopieren in die Zwischenablage
