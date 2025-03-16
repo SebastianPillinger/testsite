@@ -9,29 +9,29 @@
     <meta property="og:description" content="Fotografie für Hochzeiten, Events und Unternehmen in Graz. Jetzt anfragen!">
     <meta property="og:image" content="https://www.deinewebsite.de/bilder/header.jpg">
     <meta property="og:url" content="https://www.deinewebsite.de">
-    <title>Sebastian Pillinger Fotografie</title>
+    <title>Sebastian Pillinger – Fotografie</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">    
 </head>
 <body>
-    <!-- Hamburger-Menü-Icon -->
-    <div class="hamburger-menu" id="hamburger-menu">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
+	<!-- Hamburger-Menü-Icon -->
+	<div class="hamburger-menu" id="hamburger-menu">
+		<div class="bar"></div>
+		<div class="bar"></div>
+		<div class="bar"></div>
+	</div>
 
     <!-- Hauptnavigation -->
-    <nav aria-label="Hauptnavigation" id="main-nav">
-        <a href="#about">Über mich</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#services">Leistungen</a>
-        <a href="#testimonials">Kundenfeedback</a>
-        <a href="#contact">Kontakt</a>
-    </nav>
+	<nav aria-label="Hauptnavigation" id="main-nav">
+		<a href="#about">Über mich</a>
+		<a href="#portfolio">Portfolio</a>
+		<a href="#services">Leistungen</a>
+		<a href="#testimonials">Kundenfeedback</a>
+		<a href="#contact">Kontakt</a>
+	</nav>
     
     <header>
-        <h1>Sebastian Pillinger Fotografie</h1>
+        <h1>Sebastian Pillinger - Fotografie</h1>
     </header>
     
     <!-- Über mich -->
@@ -50,12 +50,58 @@
     </section>
     
     <!-- Portfolio -->
-    <section id="portfolio">
-        <h2>Portfolio</h2>
-        <div class="portfolio-section" id="portfolio-gallery">
-            <!-- Bilder werden dynamisch geladen -->
-        </div>
-    </section>
+	<section id="portfolio">
+		<h2>Portfolio</h2>
+		<div class="portfolio-section">
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/linzm1.jpg" alt="Linz-Marathon" loading="lazy" 
+						 onclick="openLightbox('bilder/linzm1.jpg', ['bilder/linzm1.jpg', 'bilder/linzm2.jpg', 'bilder/linzm3.jpg'])">
+					<div class="overlay-text">Linz-Marathon</div>
+				</div>
+			</div>
+			
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/rr1.jpg" alt="Kasberg-Inferno" loading="lazy" 
+						 onclick="openLightbox('bilder/rr1.jpg', ['bilder/rr1.jpg', 'bilder/rr2.jpg', 'bilder/rr3.jpg', 'bilder/rr4.jpg', 'bilder/rr5.jpg'])">
+					<div class="overlay-text">Kasberg-Inferno</div>
+				</div>
+			</div>
+
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/hochzeit1.jpg" alt="Hochzeitsfotografie" loading="lazy" 
+						 onclick="openLightbox('bilder/hochzeit1.jpg', ['bilder/hochzeit1.jpg', 'bilder/hochzeit2.jpg', 'bilder/hochzeit3.jpg'])">
+					<div class="overlay-text">Hochzeiten</div>
+				</div>
+			</div>
+
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/tiere1.jpg" alt="Haustiere" loading="lazy" 
+						 onclick="openLightbox('bilder/tiere1.jpg', ['bilder/tiere1.jpg', 'bilder/tiere2.jpg', 'bilder/tiere3.jpg', 'bilder/tiere4.jpg', 'bilder/tiere5.jpg', 'bilder/tiere6.jpg', 'bilder/tiere7.jpg', 'bilder/tiere8.jpg', 'biler/tiered.jpg'])">
+					<div class="overlay-text">Haustiere</div>
+				</div>
+			</div>
+			
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/wildlife1.jpg" alt="Wildlife" loading="lazy" 
+						 onclick="openLightbox('bilder/wildlife1.jpg', ['bilder/wildlife1.jpg', 'bilder/wildlife2.jpg', 'bilder/wildlife3.jpg', 'bilder/wildlife4.jpg', 'bilder/wildlife5.jpg', 'bilder/wildlife6.jpg'])">
+					<div class="overlay-text">Wildlife</div>
+				</div>
+			</div>
+			
+			<div class="portfolio-gallery">
+				<div class="image-container">
+					<img src="bilder/party1.jpg" alt="Partyfotografie" loading="lazy" 
+						 onclick="openLightbox('bilder/party1.jpg', ['bilder/party1.jpg', 'bilder/party2.jpg', 'bilder/party3.jpg'])">
+					<div class="overlay-text">Partys</div>
+				</div>
+			</div>
+		</div>
+	</section>
     
     <!-- Leistungen -->
     <section id="services">
@@ -74,16 +120,12 @@
         <h2>Kundenfeedback</h2>
         <div class="testimonials">
             <div class="testimonial">
-                <blockquote>
-                    <p>"Sebastian hat unsere Hochzeit perfekt festgehalten. Die Fotos sind atemberaubend!"</p>
-                    <cite>– Anna und Markus</cite>
-                </blockquote>
+                <p>"Sebastian hat unsere Hochzeit perfekt festgehalten. Die Fotos sind atemberaubend!"</p>
+                <cite>– Anna und Markus</cite>
             </div>
             <div class="testimonial">
-                <blockquote>
-                    <p>"Professionelle Arbeit und eine Freude, mit ihm zusammenzuarbeiten."</p>
-                    <cite>– Eventagentur Graz</cite>
-                </blockquote>
+                <p>"Professionelle Arbeit und eine Freude, mit ihm zusammenzuarbeiten."</p>
+                <cite>– Eventagentur Graz</cite>
             </div>
         </div>
     </section>
@@ -108,16 +150,13 @@
     </footer>
 
     <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <div class="slideshow-container">
-            <div class="slides">
-                <!-- Bilder werden dynamisch geladen -->
-            </div>
-            <button class="prev" aria-label="Vorheriges Bild">&#10094;</button>
-            <button class="next" aria-label="Nächstes Bild">&#10095;</button>
-        </div>
-    </div>
-    
-    <script src="script.js"></script>
+	<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+		<span class="lightbox-arrow left" onclick="event.stopPropagation(); changeImage(-1)">&#10094;</span>
+		<img src="" alt="Vergrößertes Bild" id="lightbox-img">
+		<span class="lightbox-arrow right" onclick="event.stopPropagation(); changeImage(1)">&#10095;</span>
+	</div>
+	
+	<script src="script.js"></script>
+	
 </body>
 </html>
