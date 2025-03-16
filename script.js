@@ -60,15 +60,10 @@ const isMobile = 'ontouchstart' in window;
 
 function openLightbox(imageSrc, imageList) {
     images = imageList;
-    currentIndex = 0;
+    currentIndex = images.indexOf(imageSrc);
 
+    // Leere die Slideshow und füge die Bilder dynamisch hinzu
     slides.innerHTML = '';
-
-    const firstClone = document.createElement('img');
-    firstClone.src = images[images.length - 1];
-    firstClone.alt = `Bild ${images.length}`;
-    slides.appendChild(firstClone);
-
     images.forEach((src, index) => {
         const img = document.createElement('img');
         img.src = src;
@@ -76,13 +71,9 @@ function openLightbox(imageSrc, imageList) {
         slides.appendChild(img);
     });
 
-    const lastClone = document.createElement('img');
-    lastClone.src = images[0];
-    lastClone.alt = `Bild 1`;
-    slides.appendChild(lastClone);
-
+    // Zeige die Lightbox und das aktuelle Bild
     lightbox.classList.add('active');
-    showSlide(currentIndex + 1);
+    showSlide(currentIndex);
     document.body.style.overflow = 'hidden';
 }
 
@@ -93,20 +84,22 @@ function closeLightbox() {
 
 function showSlide(index) {
     if (index >= images.length) {
-        currentIndex = 0;
+        currentIndex = 0; // Zurück zum ersten Bild, wenn Ende erreicht
     } else if (index < 0) {
-        currentIndex = images.length - 1;
+        currentIndex = images.length - 1; // Zum letzten Bild, wenn Anfang erreicht
     } else {
         currentIndex = index;
     }
 
-    const offset = -(currentIndex + 1) * 100;
+    // Berechne den Versatz basierend auf dem aktuellen Index
+    const offset = -currentIndex * 100;
     slides.style.transform = `translateX(${offset}%)`;
 
+    // Deaktiviere die Animation auf dem PC
     if (!isMobile) {
-        slides.style.transition = 'none';
+        slides.style.transition = 'none'; // Keine Animation auf dem PC
     } else {
-        slides.style.transition = 'transform 0.5s ease-in-out';
+        slides.style.transition = 'transform 0.5s ease-in-out'; // Animation auf mobilen Geräten
     }
 }
 
