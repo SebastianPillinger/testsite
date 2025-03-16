@@ -11,14 +11,11 @@
 html, body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* Verhindert horizontalen Scroll */
+    overflow-x: hidden;
 }
 
 body {
     font-family: 'Playfair Display', serif;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* Verhindert horizontalen Scroll */
     color: var(--text-color);
     background-color: var(--background-color);
     line-height: 1.6;
@@ -52,14 +49,14 @@ header h1 {
 
 /* Hamburger-Menü-Icon */
 .hamburger-menu {
-    display: none; /* Standardmäßig ausgeblendet */
+    display: none;
     flex-direction: column;
     cursor: pointer;
     padding: 10px;
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 1001; /* Über dem Menü */
+    z-index: 1001;
 }
 
 .hamburger-menu .bar {
@@ -70,7 +67,7 @@ header h1 {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Navigation für große Bildschirme (unverändert) */
+/* Navigation */
 nav {
     position: fixed;
     top: 0;
@@ -93,43 +90,14 @@ nav a:hover {
     color: var(--primary-color);
 }
 
-/* Responsive Design für Handys */
-@media (max-width: 768px) {
-    .hamburger-menu {
-        display: flex; /* Hamburger-Menü auf kleinen Bildschirmen anzeigen */
-    }
-
-    nav {
-        position: fixed;
-        top: 0;
-        right: 0; /* Menü von rechts einblenden */
-        width: auto; /* Breite passt sich dem Inhalt an */
-        background: rgba(44, 44, 44, 0.95);
-        padding: 20px;
-        text-align: left;
-        transform: translateX(100%); /* Menü standardmäßig ausgeblendet */
-        transition: transform 0.3s ease;
-    }
-
-    nav.active {
-        transform: translateX(0); /* Menü einblenden */
-    }
-
-    nav a {
-        display: block; /* Links untereinander anzeigen */
-        margin: 10px 0;
-        font-size: 1.2em;
-    }
-}
-
 /* Abschnitte */
 section {
     max-width: 1200px;
     margin: auto;
     padding: 80px 20px;
     text-align: center;
-    position: relative; /* Damit der Inhalt nicht verdeckt wird */
-    z-index: 1; /* Inhalt über der Navigationsleiste */
+    position: relative;
+    z-index: 1;
 }
 
 h2 {
@@ -154,7 +122,7 @@ h2 {
     max-width: 600px;
     font-size: 1.4em;
     color: var(--text-color);
-    text-align: justify; /* Text im Blocksatz */
+    text-align: justify;
 }
 
 .about-image img {
@@ -177,9 +145,9 @@ h2 {
     border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Flexible Spaltenbreite */
-    gap: 40px; /* Fester Abstand von 40px zwischen den Containern */
-    justify-content: center; /* Zentrieren des Rasters */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    justify-content: center;
 }
 
 .image-container {
@@ -187,22 +155,21 @@ h2 {
     overflow: hidden;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%; /* Container füllt die Spalte aus */
-    margin: 0; /* Margin zurücksetzen */
-    padding: 0; /* Padding zurücksetzen */
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .image-container img {
-    width: 100%; /* Bild füllt die Breite des Containers aus */
-    height: auto; /* Höhe passt sich dem natürlichen Seitenverhältnis an */
+    width: 100%;
+    height: auto;
     border-radius: 5px;
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Overlay-Effekt beim Darüberfahren */
 .image-container:hover img {
     transform: scale(1.1);
-    filter: brightness(0.3); /* Bild wird dunkler */
+    filter: brightness(0.3);
 }
 
 .overlay-text {
@@ -214,29 +181,7 @@ h2 {
     font-size: 2em;
     opacity: 0;
     transition: opacity 0.3s ease;
-    pointer-events: none; /* Verhindert, dass der Text das Bild überdeckt */
-}
-
-/* Standardverhalten für Handys */
-@media (max-width: 768px) {
-    .image-container img {
-        filter: brightness(0.7); /* Bild standardmäßig abgedunkelt */
-    }
-
-    .overlay-text {
-        opacity: 1; /* Schrift standardmäßig sichtbar */
-    }
-}
-
-/* Hover-Effekt für Laptops */
-@media (min-width: 769px) {
-    .image-container:hover img {
-        filter: brightness(0.3); /* Bild wird dunkler */
-    }
-
-    .image-container:hover .overlay-text {
-        opacity: 1; /* Schrift wird sichtbar */
-    }
+    pointer-events: none;
 }
 
 /* Lightbox */
@@ -253,7 +198,7 @@ h2 {
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s ease;
-    touch-action: none; /* Verhindert Standard-Touch-Verhalten wie Scrollen */
+    touch-action: none;
 }
 
 .lightbox.active {
@@ -261,7 +206,7 @@ h2 {
     opacity: 1;
 }
 
-/* Slideshow-Stile */
+/* Slideshow */
 .slideshow-container {
     position: relative;
     max-width: 90%;
@@ -282,10 +227,10 @@ h2 {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    flex-shrink: 0; /* Verhindert, dass die Bilder schrumpfen */
+    flex-shrink: 0;
 }
 
-button {
+.prev, .next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -340,14 +285,14 @@ button {
 /* Kontakt */
 #contact {
     background-color: var(--dark-color);
-    color: white; /* Textfarbe im Kontaktbereich immer weiß */
+    color: white;
     padding: 60px 20px;
     border-radius: 10px;
     margin-top: 80px;
 }
 
 #contact h2 {
-    color: white; /* Überschrift im Kontaktbereich immer weiß */
+    color: white;
 }
 
 #contact p {
@@ -411,6 +356,6 @@ footer a:hover {
     nav a { font-size: 1.2em; margin: 0 10px; }
     .about-container { flex-direction: column; text-align: center; }
     .about-image img { width: 100%; max-width: 300px; }
-    .portfolio-gallery { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .portfolio-section { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
     h2 { font-size: 2em; }
 }
