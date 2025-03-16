@@ -221,7 +221,7 @@ h2 {
 /* Standardverhalten für Handys */
 @media (max-width: 768px) {
     .image-container img {
-        filter: brightness(0.3); /* Bild standardmäßig abgedunkelt */
+        filter: brightness(0.7); /* Bild standardmäßig abgedunkelt */
     }
 
     .overlay-text {
@@ -265,8 +265,18 @@ h2 {
     max-width: 90%;
     max-height: 90%;
     border-radius: 5px;
-    transform: scale(0.8);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease; /* Sanfte Bewegung beim Wischen */
+}
+
+/* Klassen für die Animation */
+.lightbox img.slide-left {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.lightbox img.slide-right {
+    transform: translateX(100%);
+    opacity: 0;
 }
 
 .lightbox.active img {
