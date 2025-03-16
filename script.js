@@ -60,10 +60,15 @@ const isMobile = 'ontouchstart' in window;
 
 function openLightbox(imageSrc, imageList) {
     images = imageList;
-    currentIndex = images.indexOf(imageSrc);
+    currentIndex = 0;
 
-    // Leere die Slideshow und füge die Bilder dynamisch hinzu
     slides.innerHTML = '';
+
+    const firstClone = document.createElement('img');
+    firstClone.src = images[images.length - 1];
+    firstClone.alt = `Bild ${images.length}`;
+    slides.appendChild(firstClone);
+
     images.forEach((src, index) => {
         const img = document.createElement('img');
         img.src = src;
@@ -71,9 +76,13 @@ function openLightbox(imageSrc, imageList) {
         slides.appendChild(img);
     });
 
-    // Zeige die Lightbox und das aktuelle Bild
+    const lastClone = document.createElement('img');
+    lastClone.src = images[0];
+    lastClone.alt = `Bild 1`;
+    slides.appendChild(lastClone);
+
     lightbox.classList.add('active');
-    showSlide(currentIndex);
+    showSlide(currentIndex + 1);
     document.body.style.overflow = 'hidden';
 }
 
@@ -84,22 +93,20 @@ function closeLightbox() {
 
 function showSlide(index) {
     if (index >= images.length) {
-        currentIndex = 0; // Zurück zum ersten Bild, wenn Ende erreicht
+        currentIndex = 0;
     } else if (index < 0) {
-        currentIndex = images.length - 1; // Zum letzten Bild, wenn Anfang erreicht
+        currentIndex = images.length - 1;
     } else {
         currentIndex = index;
     }
 
-    // Berechne den Versatz basierend auf dem aktuellen Index
-    const offset = -currentIndex * 100;
+    const offset = -(currentIndex + 1) * 100;
     slides.style.transform = `translateX(${offset}%)`;
 
-    // Deaktiviere die Animation auf dem PC
     if (!isMobile) {
-        slides.style.transition = 'none'; // Keine Animation auf dem PC
+        slides.style.transition = 'none';
     } else {
-        slides.style.transition = 'transform 0.5s ease-in-out'; // Animation auf mobilen Geräten
+        slides.style.transition = 'transform 0.5s ease-in-out';
     }
 }
 
