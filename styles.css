@@ -257,7 +257,7 @@ h2 {
 
 @media (max-width: 768px) {
     .lightbox-arrow {
-        font-size: 1em; /* Kleinere Schriftgröße für mobile Geräte */
+        font-size: 2em; /* Kleinere Schriftgröße für mobile Geräte */
     }
 }
 
