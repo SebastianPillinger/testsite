@@ -51,26 +51,6 @@ header h1 {
     to { opacity: 1; }
 }
 
-/* Hamburger-Menü-Icon */
-.hamburger-menu {
-    display: none; /* Standardmäßig ausgeblendet */
-    flex-direction: column;
-    cursor: pointer;
-    padding: 10px;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1001; /* Über dem Menü */
-}
-
-.hamburger-menu .bar {
-    width: 25px;
-    height: 3px;
-    background-color: var(--text-color);
-    margin: 4px 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
 /* Navigation für große Bildschirme (unverändert) */
 nav {
     position: fixed;
@@ -92,35 +72,6 @@ nav a {
 
 nav a:hover {
     color: var(--primary-color);
-}
-
-/* Responsive Design für Handys */
-@media (max-width: 768px) {
-    .hamburger-menu {
-        display: flex; /* Hamburger-Menü auf kleinen Bildschirmen anzeigen */
-    }
-
-    nav {
-        position: fixed;
-        top: 0;
-        right: 0; /* Menü von rechts einblenden */
-        width: auto; /* Breite passt sich dem Inhalt an */
-        background: rgba(44, 44, 44, 0.95);
-        padding: 20px;
-        text-align: left;
-        transform: translateX(100%); /* Menü standardmäßig ausgeblendet */
-        transition: transform 0.3s ease;
-    }
-
-    nav.active {
-        transform: translateX(0); /* Menü einblenden */
-    }
-
-    nav a {
-        display: block; /* Links untereinander anzeigen */
-        margin: 10px 0;
-        font-size: 1.2em;
-    }
 }
 
 /* Abschnitte */
@@ -266,6 +217,7 @@ h2 {
     max-height: 90%;
     border-radius: 5px;
     transition: transform 0.3s ease; /* Sanfte Bewegung beim Wischen */
+	z-index: 1000;
 }
 
 /* Klassen für die Animation */
@@ -293,6 +245,7 @@ h2 {
     user-select: none;
     padding: 10px 20px;
     transition: background-color 0.3s ease;
+    z-index: 1001;
 }
 
 .lightbox-arrow.left {
