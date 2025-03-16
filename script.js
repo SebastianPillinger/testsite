@@ -73,16 +73,18 @@ function handleTouchStart(event) {
 function handleTouchMove(event) {
     if (!isSwiping) return;
 
-    const lightboxImg = document.getElementById("lightbox-img");
-    const deltaX = event.touches[0].clientX - touchStartX;
-    const deltaY = event.touches[0].clientY - touchStartY;
+    const touchCurrentY = event.touches[0].clientY;
+    const deltaY = touchCurrentY - touchStartY;
 
-    lightboxImg.style.transform = `translateX(${deltaX}px)`;
-
-    // Verhindert das Scrollen der Seite während des Swipes
-    if (Math.abs(deltaY) > 10) {
-        event.preventDefault();
+    if (Math.abs(deltaY) > 50) {
+        closeLightbox();
+        return;
     }
+
+    touchCurrentX = event.touches[0].clientX;
+    const deltaX = touchCurrentX - touchStartX;
+    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
+    slides.style.transform = `translateX(${offset}%)`;
 }
 
 function handleTouchEnd(event) {
