@@ -77,14 +77,13 @@ function handleTouchMove(event) {
     const deltaX = touchCurrentX - touchStartX;
     const lightboxImg = document.getElementById('lightbox-img');
     
-    // Begrenze die Bewegungsreichweite
-    const maxDelta = 100;
-    const offset = Math.min(Math.max(deltaX, -maxDelta), maxDelta);
+    // Bewegung und Transparenz
+    const maxOffset = 100;
+    const opacity = 1 - Math.abs(deltaX)/200;
     
-    // Bewege das Bild mit dem Finger
-    lightboxImg.style.transform = `translateX(${offset}px)`;
+    lightboxImg.style.transform = `translateX(${deltaX}px)`;
+    lightboxImg.style.opacity = opacity;
     
-    // Verhindere Scrollen der Seite
     event.preventDefault();
 }
 
@@ -105,6 +104,10 @@ function handleTouchEnd(event) {
     }
 
     isSwiping = false;
+	
+	lightboxImg.style.transform = 'translateX(0)';
+    lightboxImg.style.opacity = 1;
+    lightboxImg.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
 }
 
 const lightbox = document.getElementById('lightbox');
