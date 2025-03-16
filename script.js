@@ -154,7 +154,9 @@ function handleTouchMove(event) {
 
     touchCurrentX = event.touches[0].clientX;
     const deltaX = touchCurrentX - touchStartX;
-    const offset = -(currentIndex + 1) * 100 + (deltaX / window.innerWidth) * 100;
+
+    // Bildposition während des Wischens aktualisieren
+    const offset = -(currentIndex * 100) + (deltaX / window.innerWidth) * 100;
     slides.style.transform = `translateX(${offset}%)`;
 }
 
