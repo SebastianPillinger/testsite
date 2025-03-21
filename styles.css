@@ -25,7 +25,6 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
 /* Header mit Hintergrundbild */
 header {
     position: relative;
@@ -39,8 +38,14 @@ header {
     padding-top: 100px;
 }
 
+@font-face {
+    font-family: 'Anurati';
+    src: url('fonts/anurati.ttf') format('truetype');
+}
+
 header h1 {
-    font-size: 2em;
+	font-family: 'Anurati', sans-serif;
+    font-size: 2.5em;
     margin: 0;
     padding: 20px;
     animation: fadeIn 2s ease-in-out;
@@ -69,6 +74,7 @@ nav {
 }
 
 nav a {
+	font-family: 'Anurati', sans-serif;
     margin: 0 20px;
     color: white;
     text-decoration: none;
@@ -91,7 +97,8 @@ section {
 }
 
 h2 {
-    font-size: 3em;
+	font-family: 'Anurati', sans-serif;
+    font-size: 2em;
     color: var(--text-color);
     margin-bottom: 40px;
 }
@@ -164,6 +171,7 @@ h2 {
 }
 
 .overlay-text {
+	font-family: 'Anurati', sans-serif;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -367,10 +375,10 @@ footer a:hover {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    header h1 { font-size: 1em; }
+    header h1 { font-size: 1.5em; }
     nav a { font-size: 1.2em; margin: 0 10px; }
     .about-container { flex-direction: column; text-align: center; }
     .about-image img { width: 100%; max-width: 300px; }
     .portfolio-gallery { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-    h2 { font-size: 2em; }
+    h2 { font-size: 1.5em; }
 }
