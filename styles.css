@@ -40,10 +40,16 @@ header {
 }
 
 header h1 {
-    font-size: 3em;
+    font-size: 2em;
     margin: 0;
     padding: 20px;
     animation: fadeIn 2s ease-in-out;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+    header {
+        background-position: 24% center;
+    }
 }
 
 @keyframes fadeIn {
@@ -361,7 +367,7 @@ footer a:hover {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    header h1 { font-size: 2.5em; }
+    header h1 { font-size: 1em; }
     nav a { font-size: 1.2em; margin: 0 10px; }
     .about-container { flex-direction: column; text-align: center; }
     .about-image img { width: 100%; max-width: 300px; }
